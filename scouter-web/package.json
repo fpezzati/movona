@@ -1,0 +1,26 @@
+{
+  "name": "scouter-web",
+  "packageManager": "yarn@3.0.2",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack serve --mode='development'",
+    "test": "tape -r @babel/register $(find ./test/ -name '*.test.js')",
+    "debug.test": "node --inspect-brk -r @babel/register $file"
+  },
+  "dependencies": {
+    "leaflet": "^1.7.1",
+    "lodash": "^4.17.21",
+    "mithril": "^2.0.4",
+    "scouter": "../scouter"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/register": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.5.0"
+  }
+}

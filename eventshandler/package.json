@@ -1,0 +1,20 @@
+{
+  "name": "eventshandler",
+  "packageManager": "yarn@3.0.2",
+  "main": "eventshandler.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "tape -r @babel/register $(find ./test/ -name '*.test.js')",
+    "debug.test": "node --inspect-brk -r @babel/register $file"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/register": "^7.15.3",
+    "babel-loader": "^8.2.2",
+    "lodash": "^4.17.21",
+    "tape": "^5.3.1",
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0"
+  }
+}

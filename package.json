@@ -1,0 +1,30 @@
+{
+  "name": "movona",
+  "private": true,
+  "packageManager": "yarn@3.0.2",
+  "workspaces": [
+    "eventshandler",
+    "scouter",
+    "scouter-web",
+    "planner"
+  ],
+  "scripts": {
+    "dev": "npm-run-all test:eventshandler build:eventshandler test:scouter build:scouter"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/register": "^7.15.3",
+    "babel-loader": "^8.2.2",
+    "cucumber": "^7.0.0-rc.0",
+    "lodash": "^4.17.21",
+    "npm-run-all": "^4.1.5",
+    "tape": "^5.3.1",
+    "webpack": "^5.58.0",
+    "webpack-cli": "^4.9.0",
+    "webpack-dev-server": "^4.3.1"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
+  }
+}

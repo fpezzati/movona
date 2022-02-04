@@ -1,0 +1,23 @@
+{
+  "name": "planner",
+  "packageManager": "yarn@3.0.2",
+  "scripts": {
+    "build": "webpack",
+    "test": "tape -r @babel/register $(find ./test/ -name '*.test.js')",
+    "debug.test": "node --inspect-brk -r @babel/register $(find ./test/ -name '*.test.js')"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/register": "^7.15.3",
+    "babel-loader": "^8.2.3",
+    "lodash": "^4.17.21",
+    "tape": "^5.3.1",
+    "webpack": "^5.60.0",
+    "webpack-cli": "^4.9.1"
+  },
+  "dependencies": {
+    "eventshandler": "../eventshandler",
+    "geojson-validation": "^1.0.2"
+  }
+}
