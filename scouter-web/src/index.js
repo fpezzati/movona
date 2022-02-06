@@ -37,14 +37,19 @@ class ScouterWeb extends HTMLElement {
 
     console.log("scouter-web's connected callback: " + Scouter);
     main.scouter = this.scouter;
+    main.send = this.send.bind(this);
     main.state = this.state;
     m.mount(this._shadowRoot.getElementById('scouter'), main);
     console.log('leaflet connected and ready!');
   }
 
+  send(event) {
+    this.state = this.scouter.accept(event, this.state);
+    this.refresh(this.state);
+  }
+
   refresh(state) {
     console.log("refreshing");
-    this.map.setView(state.viewCenter);
     this.geojsonLayer.remove();
     this.geojsonLayer = L.geoJSON(state.support_map).addTo(this.map);
   }

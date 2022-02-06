@@ -14,11 +14,10 @@ function toggleToolsButton() {
   ischecked = !ischecked;
 }
 
-function uploadGeoJsonMap(file, scouter, state) {
+function uploadGeoJsonMap(file, send) {
   console.log("file? " + JSON.stringify(file));
   file.text().then((data)=>{
-    var newstate = scouter.accept({ command: "addsupportmap", payload: JSON.parse(data) }, state);
-    console.log("new state: " + JSON.stringify(newstate));
+    send({ command: "addsupportmap", payload: JSON.parse(data) });
   });
 }
 
@@ -33,8 +32,8 @@ var Tools = (function() {
             m("li",
               m("div", [
                 showModal && m(modal, { content: [
-                  m("input", { type: "file", onchange: function(){
-                    uploadGeoJsonMap(this.files[0], vnode.state.scouter, vnode.state.state);
+                  m("input", { type: "file", onchange: function() {
+                    uploadGeoJsonMap(this.files[0], vnode.state.send);
                   } }),
                   m("button", { onclick: ()=>{ showModal = !showModal } }, "close")
                 ]}),

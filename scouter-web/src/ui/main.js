@@ -18,6 +18,7 @@ var main = (function(){
         gui = vnode.state.gui;
         Tools.scouter = vnode.state.scouter;
         Tools.state = vnode.state.state;
+        Tools.send = vnode.state.send;
     },
 
     view: function(vnode) {

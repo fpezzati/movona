@@ -1,6 +1,24 @@
-# Monova
-Something unuseful, just to learn.
+# Movona
+Movona is still a prototype, for now it aims to provide some tools about defining paths and routes.
 
-Wanna go modular: libs are modules, core apps are modules, their web interfaces are modules too.
+Movona is composed by the following modules:
+- EventsHandler,
+- Scouter,
+- ScouterWeb.
 
-Tried Yarn. Not bad! Bud docker management gets complicated...
+### TODO:
+- not really happy about YARN, I guess I configure it wrong. What I want is: a tool to share libs (mine too) among modules, a tool that is capable of test and build everything at once. Instead I had to reinstall after modify and rebuild a dependency source code..
+
+## EventsHandler
+It's a library, she provides a pluggable eventbus and a plug implementing 'ctrl-z' feature.
+
+## Scouter
+Aggregates a set of features that allow user to draw and define specific geospatial objects.
+
+## ScouterWeb
+This is Scoute's web interface: a web component that is in charge to render what user figured out using Scouter. ScouterWeb encapsulates Scouter and feeds him with all the events that occurs (user interaction).
+
+One of the key components in ScouterWeb is the function that allows gui components to send an event that will update application's state and refresh gui itself.
+
+### TODO:
+- ScouterWeb needs a function to apply changes to application's state and re-render.
