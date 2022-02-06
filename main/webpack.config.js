@@ -1,6 +1,6 @@
 const path = require('path');
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/main.js',
   devtool: 'eval-source-map',
   module: {
     rules: [{
@@ -23,7 +23,7 @@ module.exports = {
     }]
   },
   output: {
-    filename: 'index.js',
+    filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
@@ -33,7 +33,7 @@ module.exports = {
     host: '0.0.0.0',
     allowedHosts: 'all',
     client: {
-      webSocketURL: 'auto://0.0.0.0:0/scouter/ws'
+      webSocketURL: 'auto://0.0.0.0:0/main/ws'
     }
   }
 };

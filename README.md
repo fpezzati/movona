@@ -7,7 +7,15 @@ Movona is composed by the following modules:
 - ScouterWeb.
 
 ### TODO:
-- not really happy about YARN, I guess I configure it wrong. What I want is: a tool to share libs (mine too) among modules, a tool that is capable of test and build everything at once. Instead I had to reinstall after modify and rebuild a dependency source code..
+- not really happy about YARN, I guess I configure it wrong. What I want is: a tool to share libs (mine too) among modules, a tool that is capable of test and build everything at once. Instead I had to reinstall after modify and rebuild a dependency source code,
+- put some main page on that call webcomponents,
+- have an helm chart or something equivalent to deploy everything at once on cluster.
+
+### DONE:
+- ...
+
+## Main
+The main app, she is in charge to bring events across apps whenever will be a need. She of course imports the apps.
 
 ## EventsHandler
 It's a library, she provides a pluggable eventbus and a plug implementing 'ctrl-z' feature.
@@ -21,4 +29,7 @@ This is Scoute's web interface: a web component that is in charge to render what
 One of the key components in ScouterWeb is the function that allows gui components to send an event that will update application's state and refresh gui itself.
 
 ### TODO:
+- ...
+
+### DONE:
 - ScouterWeb needs a function to apply changes to application's state and re-render.

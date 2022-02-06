@@ -6,7 +6,8 @@
     "eventshandler",
     "scouter",
     "scouter-web",
-    "planner"
+    "planner",
+    "main"
   ],
   "scripts": {
     "dev": "npm-run-all test:eventshandler build:eventshandler test:scouter build:scouter"
