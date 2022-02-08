@@ -1,7 +1,7 @@
 {
-  "name": "scouter-web",
+  "name": "main",
   "packageManager": "yarn@3.0.2",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "build": "webpack",
     "dev": "webpack serve --mode='development'",
