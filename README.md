@@ -8,10 +8,12 @@ Movona is composed by the following modules:
 
 ### TODO:
 - not really happy about YARN, I guess I configure it wrong. What I want is: a tool to share libs (mine too) among modules, a tool that is capable of test and build everything at once. Instead I had to reinstall after modify and rebuild a dependency source code,
-- put some main page on that call webcomponents,
-- have an helm chart or something equivalent to deploy everything at once on cluster.
+- Scouter needs to provide an UUID for each geographic element is created. This must affect CRUD operations on document's map.
 
 ### DONE:
+- put some main page on that call webcomponents,
+- ScouterWeb needs a function to apply changes to application's state and re-render,
+- have an helm chart or something equivalent to deploy everything at once on cluster,
 - ...
 
 ## Main
@@ -27,9 +29,3 @@ Aggregates a set of features that allow user to draw and define specific geospat
 This is Scoute's web interface: a web component that is in charge to render what user figured out using Scouter. ScouterWeb encapsulates Scouter and feeds him with all the events that occurs (user interaction).
 
 One of the key components in ScouterWeb is the function that allows gui components to send an event that will update application's state and refresh gui itself.
-
-### TODO:
-- ...
-
-### DONE:
-- ScouterWeb needs a function to apply changes to application's state and re-render.

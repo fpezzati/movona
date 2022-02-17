@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-deployment
+  namespace: movona
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: main-app
+  template:
+    metadata:
+      labels:
+        name: main-app
+        app: main
+    spec:
+      containers:
+        - name: main-app
+          image: node:14-alpine
+          workingDir: /movona/main
+          command: ["yarn", "run", "dev"]
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /movona/
+              name: main-fs
+      volumes:
+        - name: main-fs
+          hostPath:
+            path: /movona
+            type: Directory

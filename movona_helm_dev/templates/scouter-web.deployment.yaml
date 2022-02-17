@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scouter-web-deployment
+  namespace: movona
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: scouter-web-app
+  template:
+    metadata:
+      labels:
+        name: scouter-web-app
+        app: scouter-web
+    spec:
+      containers:
+        - name: scouter-web-app
+          image: node:14-alpine
+          workingDir: /movona/scouter-web
+          command: ["yarn", "run", "dev"]
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /movona/
+              name: scouter-web-fs
+      volumes:
+        - name: scouter-web-fs
+          hostPath:
+            path: /movona
+            type: Directory
