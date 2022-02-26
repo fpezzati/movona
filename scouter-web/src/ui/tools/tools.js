@@ -1,5 +1,6 @@
 import m from 'mithril';
 import modal from '../utils/modal.js';
+import Polylinedrawer from './polylinedrawer.js';
 
 let showModal = false;
 let ischecked = false;
@@ -37,12 +38,12 @@ var Tools = (function() {
                   } }),
                   m("button", { onclick: ()=>{ showModal = !showModal } }, "close")
                 ]}),
-                m("button", {
-                  onclick: ()=> { loadgeojson(vnode.state.scouter) }
-                }, "load map")
-              ]
+                m("button", { onclick: ()=> { loadgeojson(vnode.state.scouter) } }, "load map")
+              ])
+            ),
+            m("li",
+              m(Polylinedrawer)
             )
-          )
           ])
         )
       ]);

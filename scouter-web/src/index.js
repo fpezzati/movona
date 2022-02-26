@@ -35,6 +35,8 @@ class ScouterWeb extends HTMLElement {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
+    this.map.on('draw:created', this.addGeometry(g));
+
     console.log("scouter-web's connected callback: " + Scouter);
     main.scouter = this.scouter;
     main.send = this.send.bind(this);
@@ -46,6 +48,10 @@ class ScouterWeb extends HTMLElement {
   send(event) {
     this.state = this.scouter.accept(event, this.state);
     this.refresh(this.state);
+  }
+
+  addGeometry(geometry) {
+    console.log(JSON.stringify(geometry));
   }
 
   refresh(state) {
