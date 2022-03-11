@@ -2324,6 +2324,49 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cucumber/cucumber@npm:^7.3.2":
+  version: 7.3.2
+  resolution: "@cucumber/cucumber@npm:7.3.2"
+  dependencies:
+    "@cucumber/create-meta": ^5.0.0
+    "@cucumber/cucumber-expressions": ^12.1.1
+    "@cucumber/gherkin": ^19.0.3
+    "@cucumber/gherkin-streams": ^2.0.2
+    "@cucumber/html-formatter": ^15.0.2
+    "@cucumber/messages": ^16.0.1
+    "@cucumber/tag-expressions": ^3.0.1
+    assertion-error-formatter: ^3.0.0
+    bluebird: ^3.7.2
+    capital-case: ^1.0.4
+    cli-table3: 0.6.1
+    colors: 1.4.0
+    commander: ^7.0.0
+    create-require: ^1.1.1
+    duration: ^0.2.2
+    durations: ^3.4.2
+    figures: ^3.2.0
+    glob: ^7.1.6
+    indent-string: ^4.0.0
+    is-generator: ^1.0.3
+    is-stream: ^2.0.0
+    knuth-shuffle-seeded: ^1.0.6
+    lodash: ^4.17.21
+    mz: ^2.7.0
+    progress: ^2.0.3
+    resolve: ^1.19.0
+    resolve-pkg: ^2.0.0
+    stack-chain: ^2.0.0
+    stacktrace-js: ^2.0.2
+    string-argv: ^0.3.1
+    tmp: ^0.2.1
+    util-arity: ^1.1.0
+    verror: ^1.10.0
+  bin:
+    cucumber-js: bin/cucumber-js
+  checksum: bed526f143ec8428f49bf99f28658dfb6784db86d4ee776205066c786d015f663fa865221822a41beb0c9d386f0ddb21da5be0d4e8d1a96970308145746f0097
+  languageName: node
+  linkType: hard
+
 "@cucumber/gherkin-streams@npm:^2.0.2":
   version: 2.0.2
   resolution: "@cucumber/gherkin-streams@npm:2.0.2"
@@ -3362,6 +3405,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cli-table3@npm:0.6.1":
+  version: 0.6.1
+  resolution: "cli-table3@npm:0.6.1"
+  dependencies:
+    colors: 1.4.0
+    string-width: ^4.2.0
+  dependenciesMeta:
+    colors:
+      optional: true
+  checksum: 956e175f8eb019c26465b9f1e51121c08d8978e2aab04be7f8520ea8a4e67906fcbd8516dfb77e386ae3730ef0281aa21a65613dffbfa3d62969263252bd25a9
+  languageName: node
+  linkType: hard
+
 "cli-table3@npm:^0.6.0":
   version: 0.6.0
   resolution: "cli-table3@npm:0.6.0"
@@ -3433,7 +3489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colors@npm:^1.1.2, colors@npm:^1.4.0":
+"colors@npm:1.4.0, colors@npm:^1.1.2, colors@npm:^1.4.0":
   version: 1.4.0
   resolution: "colors@npm:1.4.0"
   checksum: 98aa2c2418ad87dedf25d781be69dc5fc5908e279d9d30c34d8b702e586a0474605b3a189511482b9d5ed0d20c867515d22749537f7bc546256c6014f3ebdcec
@@ -5360,6 +5416,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"leaflet-draw@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "leaflet-draw@npm:1.0.4"
+  checksum: 57a424e01ad21b782638e04f2647bec26af351938aa196d61249b0f996c86cc5f1e73f7fd9b706bbe4d38f007e3f4ab923a772ee06c78d3dfde58225c05597f2
+  languageName: node
+  linkType: hard
+
 "leaflet@npm:^1.7.1":
   version: 1.7.1
   resolution: "leaflet@npm:1.7.1"
@@ -6842,8 +6905,10 @@ resolve@^2.0.0-next.3:
     "@babel/core": ^7.16.0
     "@babel/preset-env": ^7.16.4
     "@babel/register": ^7.16.0
+    "@cucumber/cucumber": ^7.3.2
     babel-loader: ^8.2.3
     leaflet: ^1.7.1
+    leaflet-draw: ^1.0.4
     lodash: ^4.17.21
     mithril: ^2.0.4
     scouter: ../scouter

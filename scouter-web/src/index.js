@@ -46,7 +46,7 @@ class ScouterWeb extends HTMLElement {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    this.map.on('draw:created', (g)=>{
+    this.map.on('draw:created', (geometry)=>{
       console.log(JSON.stringify(geometry));
     });
     this.configureUI(this.map);
