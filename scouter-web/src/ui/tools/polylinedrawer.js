@@ -9,7 +9,7 @@ class Polylinedrawer {
   }
 
   view(vnode) {
-    return m('button', { onclick: this.drawRoute(vnode) }, 'draw route');
+    return m('button', { onclick: ()=>{ this.drawRoute(vnode); } }, 'draw route');
   }
 
   drawRoute(vnode) {

@@ -4,4 +4,4 @@ Feature: polyline button allows to draw polylines on map
   Scenario: By clicking the polyline draw button user starts to draw
     Given User landed on scouter-web
     When User click on draw polyline button
-    Then User can draw a route on map
+    Then User can draw a route on "map"
