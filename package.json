@@ -10,7 +10,8 @@
     "main"
   ],
   "scripts": {
-    "dev": "npm-run-all test:eventshandler build:eventshandler test:scouter build:scouter"
+    "dev": "npm-run-all test:eventshandler build:eventshandler test:scouter build:scouter",
+    "cypress:open": "cypress open"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
