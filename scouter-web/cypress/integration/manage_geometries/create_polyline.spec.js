@@ -16,7 +16,13 @@ describe('Draw geometries on map', ()=>{
 
   it('can draw after clicking draw button', ()=>{
     cy.get('scouter-web').shadow().find('.scouter-tools-main-button').click().should(elem => {
-      elem.parent().find('draw route').click()
+      console.log("toolbar clicked, now the button");
+      elem.parent().find('draw route').click();
     });
+    console.log('new cy');
+    cy.get('scouter-web').shadow().find('.scouter-bound').find('#map')
+    .click(400, 400)
+    .click(400, 600)
+    .click(500, 600);
   })
 });

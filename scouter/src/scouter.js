@@ -9,7 +9,6 @@ It relies on 'eventshandler' to manage events and ensure they will be managed by
 class Scouter {
 
   constructor() {
-    console.log(EventsHandler);
     let eventbus = new Eventbus;
     let addplace = new Addplace;
     let addsupportmap = new Addsupportmap;

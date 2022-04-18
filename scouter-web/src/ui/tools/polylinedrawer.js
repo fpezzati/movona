@@ -13,6 +13,7 @@ class Polylinedrawer {
   }
 
   drawRoute(vnode) {
+    console.log("draw route clicked");
     this.polyDrawer = new L.Draw.Polyline(this.map, {});
     this.polyDrawer.enable();
   }

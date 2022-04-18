@@ -21,8 +21,6 @@ import Scouter from 'scouter/dist/scouter';
 class ScouterWeb extends HTMLElement {
   constructor() {
     super();
-    console.log("this is scouter-web's constructor: " + Scouter);
-    console.log(JSON.stringify(Scouter));
     this._shadowRoot = this.attachShadow({ 'mode': 'open' });
     this._shadowRoot.appendChild(tmplt.content.cloneNode(true));
     this.scouter = new Scouter;
@@ -51,7 +49,6 @@ class ScouterWeb extends HTMLElement {
     });
     this.configureUI(this.map);
 
-    console.log("scouter-web's connected callback: " + Scouter);
     this.main.scouter = this.scouter;
     this.main.send = this.send.bind(this);
     this.main.state = this.state;
