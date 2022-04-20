@@ -16,7 +16,7 @@ describe('Draw geometries on map', ()=>{
 
   it('can draw after clicking draw button', ()=>{
     cy.get('scouter-web').shadow().find('.scouter-tools-main-button').click()
-    cy.get('scouter-web').shadow().find('draw route').click()
+    cy.get('scouter-web').shadow().contains('draw route').click()
     console.log('new cy')
     cy.get('scouter-web').shadow().get('scouter-web').shadow().find('#map')
     .click(400, 400)
