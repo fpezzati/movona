@@ -7,7 +7,7 @@ describe('ScouterWeb map is ready', ()=>{
 
 describe('Draw geometries on map', ()=>{
   beforeEach(() => {
-    cy.visit('http://192.168.49.2:30000/scouter/')
+    cy.visit('http://192.168.49.2:30000/scouter/');
   })
 
   it('cannot draw on map until draw button is clicked', ()=>{
@@ -15,14 +15,12 @@ describe('Draw geometries on map', ()=>{
   })
 
   it('can draw after clicking draw button', ()=>{
-    cy.get('scouter-web').shadow().find('.scouter-tools-main-button').click().should(elem => {
-      console.log("toolbar clicked, now the button");
-      elem.parent().find('draw route').click();
-    });
-    console.log('new cy');
-    cy.get('scouter-web').shadow().find('.scouter-bound').find('#map')
+    cy.get('scouter-web').shadow().find('.scouter-tools-main-button').click()
+    cy.get('scouter-web').shadow().find('draw route').click()
+    console.log('new cy')
+    cy.get('scouter-web').shadow().get('scouter-web').shadow().find('#map')
     .click(400, 400)
     .click(400, 600)
-    .click(500, 600);
+    .click(500, 600)
   })
 });
