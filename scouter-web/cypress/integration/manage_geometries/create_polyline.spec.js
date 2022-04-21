@@ -12,6 +12,9 @@ describe('Draw geometries on map', ()=>{
 
   it('cannot draw on map until draw button is clicked', ()=>{
     cy.get('scouter-web').shadow().find('.scouter-bound').find('#map').click(300, 300).click(300,400)
+    cy.get('scouter-web').shadow().find('.leaflet-marker-icon.leaflet-div-icon').should((e)=>{
+      expect(e).to.have.length(0);
+    });
   })
 
   it('can draw after clicking draw button', ()=>{
@@ -22,5 +25,8 @@ describe('Draw geometries on map', ()=>{
     .click(400, 400)
     .click(400, 600)
     .click(500, 600)
+    cy.get('scouter-web').shadow().find('.leaflet-marker-icon.leaflet-div-icon').should((e)=>{
+      expect(e).to.have.length(3);
+    });
   })
 });
