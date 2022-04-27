@@ -1,0 +1,6 @@
+{
+  "testFiles": "**/*.{feature,features}",
+  "cypress-cucumber-preprocessor" : {
+    "nonGlobalStepDefinitions": true
+  }
+}

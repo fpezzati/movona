@@ -1,33 +1,25 @@
 import m from 'mithril';
-import Tools from './tools/tools.js';
-var main = (function(){
 
-  var inputNpt;
-  var state = {};
-  var gui = {};
+class Main {
 
-  function sendCustomEvent() {
-    window.dispatchEvent(new CustomEvent('milkroute', {
-      detail: inputNpt
-    }));
-  };
-
-  return {
-    oninit: function(vnode) {
-        state = vnode.state.state;
-        gui = vnode.state.gui;
-        Tools.scouter = vnode.state.scouter;
-        Tools.state = vnode.state.state;
-        Tools.send = vnode.state.send;
-    },
-
-    view: function(vnode) {
-      return m("div",[
-        m("input", { id: "sendnpt", onchange: e => { inputNpt = e.target.value }}, "message"),
-        m("button", { id: "sendbtn", onclick: sendCustomEvent }, "Send"),
-        m(Tools)
-      ], "Scouter, the path driver!")
-    }
+  constructor(tools) {
+    this.tools = tools;
+    this.state = {};
+    this.gui = {};
   }
-})();
-export default main;
+
+  oninit(vnode) {
+      this.state = vnode.state.state;
+      this.gui = vnode.state.gui;
+      this.tools.scouter = vnode.state.scouter;
+      this.tools.state = vnode.state.state;
+      this.tools.send = vnode.state.send;
+  }
+
+  view(vnode) {
+    return m("div",[
+      m(this.tools)
+    ], "Scouter, the path driver!")
+  }
+}
+export default Main;

@@ -12,18 +12,27 @@ tmplt.innerHTML = `
 
 import m from 'mithril';
 import L from 'leaflet';
-import main from './ui/main.js';
+import Polylinedrawer from './ui/tools/polylinedrawer';
+import UploadGeoJsonMap from './ui/tools/uploadgeojsonmap';
+import Tools from './ui/tools/tools';
+import Main from './ui/main.js';
 import Scouter from 'scouter/dist/scouter';
 
 class ScouterWeb extends HTMLElement {
   constructor() {
     super();
-    console.log("this is scouter-web's constructor: " + Scouter);
-    console.log(JSON.stringify(Scouter));
     this._shadowRoot = this.attachShadow({ 'mode': 'open' });
     this._shadowRoot.appendChild(tmplt.content.cloneNode(true));
     this.scouter = new Scouter;
     this.state = {};
+    this.main = {};
+  }
+
+  configureUI(map) {
+    var polylineDrawer = new Polylinedrawer(map);
+    var uploadGeoJsonMap = new UploadGeoJsonMap;
+    var tools = new Tools([polylineDrawer, uploadGeoJsonMap]);
+    this.main = new Main(tools);
   }
 
   connectedCallback() {
@@ -35,11 +44,15 @@ class ScouterWeb extends HTMLElement {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    console.log("scouter-web's connected callback: " + Scouter);
-    main.scouter = this.scouter;
-    main.send = this.send.bind(this);
-    main.state = this.state;
-    m.mount(this._shadowRoot.getElementById('scouter'), main);
+    this.map.on('draw:created', (geometry)=>{
+      console.log(JSON.stringify(geometry));
+    });
+    this.configureUI(this.map);
+
+    this.main.scouter = this.scouter;
+    this.main.send = this.send.bind(this);
+    this.main.state = this.state;
+    m.mount(this._shadowRoot.getElementById('scouter'), this.main);
     console.log('leaflet connected and ready!');
   }
 
