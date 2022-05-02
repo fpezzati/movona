@@ -1,17 +1,20 @@
 import m from 'mithril';
 import modal from '../utils/modal.js';
 
-var showModal = false;
-
 class UploadGeoJsonMap {
+
+  constructor(send) {
+    this.showModal = false;
+    this.send = send;
+  }
 
   view(vnode) {
     return m("div", [
-      showModal && m(modal, { content: [
-        m("input", { type: "file", onchange: function() {
-          this.uploadGeoJsonMap(this.files[0], vnode.state.send);
+      this.showModal && m(modal, { content: [
+        m("input", { type: "file", onchange: (e)=>{
+          this.uploadGeoJsonMap(e.target.files[0], this.send);
         } }),
-        m("button", { onclick: ()=>{ showModal = !showModal } }, "close")
+        m("button", { onclick: ()=>{ this.showModal = !this.showModal } }, "close")
       ]}),
       m("button", { onclick: ()=> { this.triggerModal() } }, "load map")
     ]);
@@ -23,7 +26,7 @@ class UploadGeoJsonMap {
     });
   }
 
-  triggerModal(scouter) {
+  triggerModal() {
     this.showModal = !this.showModal;
   }
 }

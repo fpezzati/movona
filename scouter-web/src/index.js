@@ -30,7 +30,7 @@ class ScouterWeb extends HTMLElement {
 
   configureUI(map) {
     var polylineDrawer = new Polylinedrawer(map);
-    var uploadGeoJsonMap = new UploadGeoJsonMap;
+    var uploadGeoJsonMap = new UploadGeoJsonMap(this.send.bind(this));
     var tools = new Tools([polylineDrawer, uploadGeoJsonMap]);
     this.main = new Main(tools);
   }
@@ -44,13 +44,16 @@ class ScouterWeb extends HTMLElement {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    this.map.on('draw:created', (geometry)=>{
-      console.log(JSON.stringify(geometry));
+    this.map.on(L.Draw.Event.CREATED, (evt)=>{
+      console.log("geometry created: " + JSON.stringify(evt.layerType));
+      new L.Draw.Polyline(this.map, {}).enable();
+      this.send({ command: 'addplace', payload: evt.layer })
     });
     this.configureUI(this.map);
 
-    this.main.scouter = this.scouter;
+    new L.Draw.Polyline(this.map, {}).enable();
     this.main.send = this.send.bind(this);
+    this.main.scouter = this.scouter;
     this.main.state = this.state;
     m.mount(this._shadowRoot.getElementById('scouter'), this.main);
     console.log('leaflet connected and ready!');

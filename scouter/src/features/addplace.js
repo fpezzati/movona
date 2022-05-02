@@ -32,6 +32,7 @@ class Addplace {
   */
   validateState(state) {
     if(state == undefined || lodash.isEmpty(state) || state.document_map == undefined) {
+      console.log('undefined or empty state!');
       throw new TypeError('undefined or empty state or no document_map provided');
     }
   }

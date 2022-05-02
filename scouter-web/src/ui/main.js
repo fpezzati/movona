@@ -13,7 +13,7 @@ class Main {
       this.gui = vnode.state.gui;
       this.tools.scouter = vnode.state.scouter;
       this.tools.state = vnode.state.state;
-      this.tools.send = vnode.state.send;
+      this.tools.send = this.send;
   }
 
   view(vnode) {
