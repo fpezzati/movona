@@ -24,7 +24,7 @@ class ScouterWeb extends HTMLElement {
     this._shadowRoot = this.attachShadow({ 'mode': 'open' });
     this._shadowRoot.appendChild(tmplt.content.cloneNode(true));
     this.scouter = new Scouter;
-    this.state = {};
+    this.state = { document_map: { features: [] } };
     this.main = {};
   }
 
@@ -47,7 +47,9 @@ class ScouterWeb extends HTMLElement {
     this.map.on(L.Draw.Event.CREATED, (evt)=>{
       console.log("geometry created: " + JSON.stringify(evt.layerType));
       new L.Draw.Polyline(this.map, {}).enable();
-      this.send({ command: 'addplace', payload: evt.layer })
+      var featureGroup = L.featureGroup();
+      featureGroup.addLayer(evt.layer);
+      this.send({ command: 'addplace', payload: featureGroup.toGeoJSON() });
     });
     this.configureUI(this.map);
 
@@ -68,6 +70,7 @@ class ScouterWeb extends HTMLElement {
     console.log("refreshing");
     this.geojsonLayer.remove();
     this.geojsonLayer = L.geoJSON(state.support_map).addTo(this.map);
+    L.geoJSON(state.document_map).addTo(this.map);
   }
 }
 window.customElements.define('scouter-web', ScouterWeb);
