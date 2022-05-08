@@ -14,7 +14,8 @@
     "leaflet-draw": "^1.0.4",
     "lodash": "^4.17.21",
     "mithril": "^2.0.4",
-    "scouter": "../scouter"
+    "scouter": "../scouter",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

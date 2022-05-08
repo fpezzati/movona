@@ -17,6 +17,7 @@ import UploadGeoJsonMap from './ui/tools/uploadgeojsonmap';
 import Tools from './ui/tools/tools';
 import Main from './ui/main.js';
 import Scouter from 'scouter/dist/scouter';
+import {v4 as uuid4} from 'uuid';
 
 class ScouterWeb extends HTMLElement {
   constructor() {
@@ -49,7 +50,9 @@ class ScouterWeb extends HTMLElement {
       new L.Draw.Polyline(this.map, {}).enable();
       var featureGroup = L.featureGroup();
       featureGroup.addLayer(evt.layer);
-      this.send({ command: 'addplace', payload: featureGroup.toGeoJSON() });
+      var feature = featureGroup.toGeoJSON();
+      feature.features[0].properties.id = uuid4();
+      this.send({ command: 'addplace', payload: feature });
     });
     this.configureUI(this.map);
 
@@ -69,8 +72,19 @@ class ScouterWeb extends HTMLElement {
   refresh(state) {
     console.log("refreshing");
     this.geojsonLayer.remove();
-    this.geojsonLayer = L.geoJSON(state.support_map).addTo(this.map);
-    L.geoJSON(state.document_map).addTo(this.map);
+    L.geoJSON(state.support_map).addTo(this.map);
+    L.geoJSON(state.document_map, {
+      onEachFeature: function(feature, layer) {
+        layer.editing.enable();
+//        layer.on('click', (e) => {
+//          e.target.editing.enable();
+//        });
+      }
+    }).addTo(this.map);
+
+    this.map.eachLayer((layer) => {
+//      layer.editing.enable();
+    });
   }
 }
 window.customElements.define('scouter-web', ScouterWeb);

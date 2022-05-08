@@ -6554,9 +6554,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventshandler@file:../eventshandler::locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3De8e629%26locator%3Dscouter-web%2540workspace%253Ascouter-web":
+"eventshandler@file:../eventshandler::locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3D3913a3%26locator%3Dscouter-web%2540workspace%253Ascouter-web":
   version: 0.0.0
-  resolution: "eventshandler@file:../eventshandler#../eventshandler::hash=832983&locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3De8e629%26locator%3Dscouter-web%2540workspace%253Ascouter-web"
+  resolution: "eventshandler@file:../eventshandler#../eventshandler::hash=832983&locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3D3913a3%26locator%3Dscouter-web%2540workspace%253Ascouter-web"
   checksum: cca2b15b1fcfef884f63b6ee31b2ef4ae2e457894de4de07a99069caa922a187ec51f01a1a6f88fe375a8c9b846aeba9a4573783f168623246cf1660ab179a35
   languageName: node
   linkType: hard
@@ -10240,6 +10240,7 @@ resolve@^2.0.0-next.3:
     lodash: ^4.17.21
     mithril: ^2.0.4
     scouter: ../scouter
+    uuid: ^8.3.2
     webpack: ^5.64.4
     webpack-cli: ^4.9.1
     webpack-dev-server: ^4.5.0
@@ -10248,12 +10249,12 @@ resolve@^2.0.0-next.3:
 
 "scouter@file:../scouter::locator=scouter-web%40workspace%3Ascouter-web":
   version: 0.0.0
-  resolution: "scouter@file:../scouter#../scouter::hash=e8e629&locator=scouter-web%40workspace%3Ascouter-web"
+  resolution: "scouter@file:../scouter#../scouter::hash=3913a3&locator=scouter-web%40workspace%3Ascouter-web"
   dependencies:
     eventshandler: ../eventshandler
     geojson-validation: ^1.0.2
     uuid: ^8.3.2
-  checksum: a93fcc2a4213c00a99855fd020b6c050b746405b784a378caa3d4e9e830c062c20bbca037e31fd0009e97e2b527db435ccf27e496cdf45147ef389f16dcf87d7
+  checksum: f8ec8c9289e4d36772670965211ac5f59a5948fa19d388c4399773eb01f125dd4b5dd61d2659375a6a2253fcb370514718ab48a65d8d169be1eacf8784e5cc86
   languageName: node
   linkType: hard
 
