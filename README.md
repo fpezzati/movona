@@ -31,6 +31,8 @@ This is Scoute's web interface: a web component that is in charge to render what
 
 One of the key components in ScouterWeb is the function that allows gui components to send an event that will update application's state and refresh gui itself.
 
+ScouterWeb draw-route should become a toggle button and have a keyboard shortcut (Ctrl-D?).
+
 ### TODO:
 - refactor code! The way components are arranged is bad, tools are suppose to created where needed but they need map that is created in the index.js. That mess because I did not implement any dependency injection in my fe components.
 - move complexity from Tools component,

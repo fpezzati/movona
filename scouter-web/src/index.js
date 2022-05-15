@@ -27,12 +27,23 @@ class ScouterWeb extends HTMLElement {
     this.scouter = new Scouter;
     this.state = { document_map: { features: [] } };
     this.main = {};
+    var drawPolylineHandler = {
+      command: 'draw_polyline',
+      behave: function(msg, state) {
+        state.draw = msg.payload.value;
+        return state;
+      }
+    };
+    this.scouter.eventshandler.eventbus.handlers.set(drawPolylineHandler.command, drawPolylineHandler);
+    JSON.stringify(this.scouter.eventshandler.handlers);
   }
 
   configureUI(map) {
-    var polylineDrawer = new Polylinedrawer(map);
-    var uploadGeoJsonMap = new UploadGeoJsonMap(this.send.bind(this));
-    var tools = new Tools([polylineDrawer, uploadGeoJsonMap]);
+    this.polylineDrawer = new L.Draw.Polyline(map, {});
+    var tools = new Tools([
+      new Polylinedrawer(this.send.bind(this)),
+      new UploadGeoJsonMap(this.send.bind(this))
+    ]);
     this.main = new Main(tools);
   }
 
@@ -46,8 +57,6 @@ class ScouterWeb extends HTMLElement {
     }).addTo(this.map);
 
     this.map.on(L.Draw.Event.CREATED, (evt)=>{
-      console.log("geometry created: " + JSON.stringify(evt.layerType));
-      new L.Draw.Polyline(this.map, {}).enable();
       var featureGroup = L.featureGroup();
       featureGroup.addLayer(evt.layer);
       var feature = featureGroup.toGeoJSON();
@@ -56,7 +65,6 @@ class ScouterWeb extends HTMLElement {
     });
     this.configureUI(this.map);
 
-    new L.Draw.Polyline(this.map, {}).enable();
     this.main.send = this.send.bind(this);
     this.main.scouter = this.scouter;
     this.main.state = this.state;
@@ -75,16 +83,16 @@ class ScouterWeb extends HTMLElement {
     L.geoJSON(state.support_map).addTo(this.map);
     L.geoJSON(state.document_map, {
       onEachFeature: function(feature, layer) {
-        layer.editing.enable();
-//        layer.on('click', (e) => {
-//          e.target.editing.enable();
-//        });
+        layer.on('click', (e) => {
+          e.target.editing.enable();
+        });
       }
     }).addTo(this.map);
-
-    this.map.eachLayer((layer) => {
-//      layer.editing.enable();
-    });
+    if(state.draw === 'polyline') {
+      this.polylineDrawer.enable();
+    } else {
+      this.polylineDrawer.disable();
+    }
   }
 }
 window.customElements.define('scouter-web', ScouterWeb);

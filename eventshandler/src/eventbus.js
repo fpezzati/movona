@@ -20,7 +20,8 @@ class Eventbus {
       }
       return this.handlers.get(message.command)['behave'](copyedMessage, copyedState);
     } catch (error) {
-      return JSON.parse(JSON.stringify(copyedState));
+      console.log("Error: " + JSON.stringify(error));
+      return state;
     }
   }
 };
