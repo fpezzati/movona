@@ -10,16 +10,16 @@ class Polylinedrawer {
   }
 
   view(vnode) {
-    return m('button', { onclick: ()=>{ this.drawRoute(vnode, this.polylineDrawEnabled); } }, 'draw route');
+    return m('button', { onclick: ()=>{ this.drawRoute(vnode); } }, 'draw route');
   }
 
-  drawRoute(vnode, polylineDrawEnabled) {
-    if(!polylineDrawEnabled) {
+  drawRoute(vnode) {
+    if(!this.polylineDrawEnabled) {
       this.send({ command: 'draw_polyline', payload: { value: 'polyline' } });
     } else {
       this.send({ command: 'draw_polyline', payload: { value: 'none' } })
     }
-    polylineDrawEnabled = !polylineDrawEnabled;
+    this.polylineDrawEnabled = !this.polylineDrawEnabled;
   }
 }
 export default Polylinedrawer;

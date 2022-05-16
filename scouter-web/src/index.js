@@ -39,7 +39,7 @@ class ScouterWeb extends HTMLElement {
   }
 
   configureUI(map) {
-    this.polylineDrawer = new L.Draw.Polyline(map, {});
+//    this.polylineDrawer = new L.Draw.Polyline(map, {});
     var tools = new Tools([
       new Polylinedrawer(this.send.bind(this)),
       new UploadGeoJsonMap(this.send.bind(this))
@@ -49,7 +49,7 @@ class ScouterWeb extends HTMLElement {
 
   connectedCallback() {
     let mapElement = this._shadowRoot.getElementById('map');
-    this.map = L.map(mapElement);
+    this.map = L.map(mapElement, { editable: true });
     this.map.setView([43.75125720420175, 11.2445068359375], 9);
     this.geojsonLayer = L.geoJSON().addTo(this.map);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -63,6 +63,11 @@ class ScouterWeb extends HTMLElement {
       feature.features[0].properties.id = uuid4();
       this.send({ command: 'addplace', payload: feature });
     });
+
+    this.map.on('editable:vertex:ctrlclick editable:vertex:metakeyclick', function(geoElem) {
+      geoElem.vertex.continue();
+    });
+
     this.configureUI(this.map);
 
     this.main.send = this.send.bind(this);
@@ -89,6 +94,7 @@ class ScouterWeb extends HTMLElement {
       }
     }).addTo(this.map);
     if(state.draw === 'polyline') {
+      this.polylineDrawer = new L.Draw.Polyline(this.map, {});
       this.polylineDrawer.enable();
     } else {
       this.polylineDrawer.disable();
