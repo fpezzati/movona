@@ -39,7 +39,6 @@ class ScouterWeb extends HTMLElement {
   }
 
   configureUI(map) {
-//    this.polylineDrawer = new L.Draw.Polyline(map, {});
     var tools = new Tools([
       new Polylinedrawer(this.send.bind(this)),
       new UploadGeoJsonMap(this.send.bind(this))
@@ -84,15 +83,22 @@ class ScouterWeb extends HTMLElement {
 
   refresh(state) {
     console.log("refreshing");
-    this.geojsonLayer.remove();
+    if(this.geoJSONLayer) {
+      this.geoJSONLayer.clearLayers();
+    }
+//    this.map.eachLayer((layer) => {
+//      this.map.removeLayer(layer);
+//    });
+//    this.geojsonLayer.remove();
     L.geoJSON(state.support_map).addTo(this.map);
-    L.geoJSON(state.document_map, {
+    this.geoJSONLayer = L.geoJSON(state.document_map, {
       onEachFeature: function(feature, layer) {
         layer.on('click', (e) => {
           e.target.editing.enable();
         });
       }
-    }).addTo(this.map);
+    });
+    this.geoJSONLayer.addTo(this.map);
     if(state.draw === 'polyline') {
       this.polylineDrawer = new L.Draw.Polyline(this.map, {});
       this.polylineDrawer.enable();
