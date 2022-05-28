@@ -60,6 +60,8 @@ class ScouterWeb extends HTMLElement {
       featureGroup.addLayer(evt.layer);
       var feature = featureGroup.toGeoJSON();
       feature.features[0].properties.id = uuid4();
+      feature.features[0].properties.start_name = "node01";
+      feature.features[0].properties.end_name = "node02";
       this.send({ command: 'addplace', payload: feature });
     });
 
@@ -78,33 +80,47 @@ class ScouterWeb extends HTMLElement {
 
   send(event) {
     this.state = this.scouter.accept(event, this.state);
-    this.refresh(this.state);
+    this.refresh(this.state, this.map);
   }
 
-  refresh(state) {
+  refresh(state, map) {
     console.log("refreshing");
     if(this.geoJSONLayer) {
       this.geoJSONLayer.clearLayers();
     }
-//    this.map.eachLayer((layer) => {
-//      this.map.removeLayer(layer);
-//    });
-//    this.geojsonLayer.remove();
-    L.geoJSON(state.support_map).addTo(this.map);
+    var labels = [];
+    L.geoJSON(state.support_map).addTo(map);
     this.geoJSONLayer = L.geoJSON(state.document_map, {
       onEachFeature: function(feature, layer) {
         layer.on('click', (e) => {
           e.target.editing.enable();
         });
+        L.marker(feature.geometry.coordinates[0]).bindTooltip('HEY!', {
+          permanent: true
+        }).addTo(map);
+        L.marker(feature.geometry.coordinates[feature.geometry.coordinates.length - 1]).bindTooltip('HEY!', {
+          permanent: true
+        }).addTo(map);
+        labels.push({
+          lat: feature.geometry.coordinates[0][0],
+          lng: feature.geometry.coordinates[0][1]
+        });
+        labels.push({
+          lat: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][0],
+          lng: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][1]
+        });
       }
     });
-    this.geoJSONLayer.addTo(this.map);
+    this.geoJSONLayer.addTo(map);
     if(state.draw === 'polyline') {
-      this.polylineDrawer = new L.Draw.Polyline(this.map, {});
+      this.polylineDrawer = new L.Draw.Polyline(map, {});
       this.polylineDrawer.enable();
     } else {
       this.polylineDrawer.disable();
     }
+    labels.forEach((label)=>{
+      map.openTooltip('HEY!', label, { permanent: true });
+    });
   }
 }
 window.customElements.define('scouter-web', ScouterWeb);

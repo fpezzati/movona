@@ -60,3 +60,9 @@ html, body {
 .scouter-toolbar-menu {
   padding: 0;
 }
+
+.path-bound-label {
+  position: absolute;
+  display: flex;
+  text-align: center;
+}

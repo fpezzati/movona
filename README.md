@@ -34,6 +34,10 @@ One of the key components in ScouterWeb is the function that allows gui componen
 ScouterWeb draw-route should become a toggle button and have a keyboard shortcut (Ctrl-D?).
 
 ### TODO:
-- refactor code! The way components are arranged is bad, tools are suppose to created where needed but they need map that is created in the index.js. That mess because I did not implement any dependency injection in my fe components.
+- refactor code! The way components are arranged is bad, tools are suppose to created where needed but they need map that is created in the index.js. That mess because I did not implement any dependency injection mechanism in my fe components.
+- bare UX is defined, to fix cypress tests,
+- once a polyline is created or edited a
+- before move on planner or planner-web I have to think about CI/CD here.
+
+### DONE:
 - move complexity from Tools component,
-- ...
