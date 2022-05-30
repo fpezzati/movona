@@ -102,12 +102,12 @@ class ScouterWeb extends HTMLElement {
           permanent: true
         }).addTo(map);
         labels.push({
-          lat: feature.geometry.coordinates[0][0],
-          lng: feature.geometry.coordinates[0][1]
+          lat: feature.geometry.coordinates[0][1],
+          lng: feature.geometry.coordinates[0][0]
         });
         labels.push({
-          lat: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][0],
-          lng: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][1]
+          lat: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][1],
+          lng: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][0]
         });
       }
     });
