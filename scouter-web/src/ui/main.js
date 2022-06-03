@@ -1,4 +1,5 @@
 import m from 'mithril';
+import FeatureEditForm from './tools/featureeditform';
 
 class Main {
 
@@ -18,7 +19,8 @@ class Main {
 
   view(vnode) {
     return m("div",[
-      m(this.tools)
+      m(this.tools),
+      m(FeatureEditForm)
     ], "Scouter, the path driver!")
   }
 }

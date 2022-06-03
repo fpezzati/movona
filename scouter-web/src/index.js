@@ -94,11 +94,12 @@ class ScouterWeb extends HTMLElement {
       onEachFeature: function(feature, layer) {
         layer.on('click', (e) => {
           e.target.editing.enable();
+
         });
-        L.marker(feature.geometry.coordinates[0]).bindTooltip('HEY!', {
+        L.marker(feature.geometry.coordinates[0]).bindTooltip(feature.properties.start_name, {
           permanent: true
         }).addTo(map);
-        L.marker(feature.geometry.coordinates[feature.geometry.coordinates.length - 1]).bindTooltip('HEY!', {
+        L.marker(feature.geometry.coordinates[feature.geometry.coordinates.length - 1]).bindTooltip(feature.properties.end_name, {
           permanent: true
         }).addTo(map);
         labels.push({
