@@ -2,15 +2,21 @@ import m from 'mithril';
 
 class FeatureEditForm {
 
-  constructor(feature) {
-    this.display = 'none';
-    this.feature = feature;
+  constructor() {
+    this.feature = {};
   }
 
   view(vnode) {
-    return m('div', { class: '.scouter-feature-edit', style: { display: this.display } }, [
-        this.buildSubForm(vnode.state.feature.properties, 'nothing'),
-        m('button', { onclick: this.saveAndClose }, 'Save')
+    if(!this.feature || !this.feature.properties) return m('div', { style: { display: 'none' }});
+    return m('div', { class: '.scouter-feature-edit', style: { display: 'block' } }, [
+//        this.buildSubForm(this.feature.properties, 'nothing'),
+        m('label', 'start name'),
+        m('input[type=text]', { value: this.feature.properties.start_name}),
+        m('label', 'end name'),
+        m('input[type=text]', { value: this.feature.properties.end_name}),
+        m('button', { onclick: () => this.cancelAndClose(this.feature) }, 'Cancel'),
+        m('button', { onclick: () => this.deleteAndClose(this.feature) }, 'Delete'),
+        m('button', { onclick: () => this.saveAndClose(this.feature) }, 'Save')
       ]);
   }
 
@@ -21,7 +27,7 @@ class FeatureEditForm {
       m('label.feature-edit', obj.id),
       Object.entries(obj).forEach( property => {
         if(property instanceof Object) {
-          return buildSubForm(property, '');
+          return this.buildSubForm(property, '');
         } else{
           m('div'[
 //            m('label', { for: 'feature-input-' + property })
@@ -33,13 +39,21 @@ class FeatureEditForm {
   }
 
   saveAndClose(feature) {
-    this.display = 'none';
-    //send edited stuff
+    feature.target.editing.disable();
   }
 
-  show(feature) {
-    this.display = 'block';
+  cancelAndClose(feature) {
+    this.editHandler.disable();
+  }
+
+  deleteAndClose(feature) {
+    feature.target.editing.disable();
+  }
+
+  show(feature, editHandler) {
     this.feature = feature;
+    this.editHandler = editHandler;
+    m.redraw();
   }
 }
 

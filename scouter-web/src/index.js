@@ -15,9 +15,12 @@ import L from 'leaflet';
 import Polylinedrawer from './ui/tools/polylinedrawer';
 import UploadGeoJsonMap from './ui/tools/uploadgeojsonmap';
 import Tools from './ui/tools/tools';
+import FeatureEditForm from './ui/tools/featureeditform';
 import Main from './ui/main.js';
 import Scouter from 'scouter/dist/scouter';
 import {v4 as uuid4} from 'uuid';
+
+var featureEditForm = new FeatureEditForm();
 
 class ScouterWeb extends HTMLElement {
   constructor() {
@@ -43,7 +46,7 @@ class ScouterWeb extends HTMLElement {
       new Polylinedrawer(this.send.bind(this)),
       new UploadGeoJsonMap(this.send.bind(this))
     ]);
-    this.main = new Main(tools);
+    this.main = new Main([tools, featureEditForm]);
   }
 
   connectedCallback() {
@@ -94,7 +97,7 @@ class ScouterWeb extends HTMLElement {
       onEachFeature: function(feature, layer) {
         layer.on('click', (e) => {
           e.target.editing.enable();
-
+          featureEditForm.show(e.sourceTarget.feature, e.target.editing);
         });
         L.marker(feature.geometry.coordinates[0]).bindTooltip(feature.properties.start_name, {
           permanent: true
@@ -103,10 +106,12 @@ class ScouterWeb extends HTMLElement {
           permanent: true
         }).addTo(map);
         labels.push({
+          name: feature.properties.start_name ? feature.properties.start_name : feature.properties.id,
           lat: feature.geometry.coordinates[0][1],
           lng: feature.geometry.coordinates[0][0]
         });
         labels.push({
+          name: feature.properties.end_name ? feature.properties.end_name : feature.properties.id,
           lat: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][1],
           lng: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][0]
         });
@@ -120,7 +125,7 @@ class ScouterWeb extends HTMLElement {
       this.polylineDrawer.disable();
     }
     labels.forEach((label)=>{
-      map.openTooltip('HEY!', label, { permanent: true });
+      map.openTooltip(label.name, { lat: label.lat, lng: label.lng }, { permanent: true });
     });
   }
 }
