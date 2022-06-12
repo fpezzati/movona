@@ -33,7 +33,7 @@ One of the key components in ScouterWeb is the function that allows gui componen
 
 ### ScouterWeb integrates with PlannerWeb by sharing events
 Random ideas:
-- each event should be passed to planner as html custom event,
+- each event should be passed to planner as html custom event
 
 ### TODO:
 - refactor code! The way components are arranged is bad, tools are suppose to created where needed but they need map that is created in the index.js. That mess because I did not implement any dependency injection mechanism in my fe components.
