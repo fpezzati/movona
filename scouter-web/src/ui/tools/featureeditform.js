@@ -8,38 +8,30 @@ class FeatureEditForm {
 
   view(vnode) {
     if(!this.feature || !this.feature.properties) return m('div', { style: { display: 'none' }});
-    return m('div', { class: '.scouter-feature-edit', style: { display: 'block' } }, [
-//        this.buildSubForm(this.feature.properties, 'nothing'),
-        m('label', 'start name'),
-        m('input[type=text]', { value: this.feature.properties.start_name}),
-        m('label', 'end name'),
-        m('input[type=text]', { value: this.feature.properties.end_name}),
-        m('button', { onclick: () => this.cancelAndClose(this.feature) }, 'Cancel'),
-        m('button', { onclick: () => this.deleteAndClose(this.feature) }, 'Delete'),
-        m('button', { onclick: () => this.saveAndClose(this.feature) }, 'Save')
-      ]);
+    return m('div', [
+      this.buildSubForm(this.feature.properties),
+      m('button', { onclick: () => this.cancelAndClose(this.feature) }, 'Cancel'),
+      m('button', { onclick: () => this.deleteAndClose(this.feature) }, 'Delete'),
+      m('button', { onclick: () => this.saveAndClose(this.feature) }, 'Save')
+    ]);
   }
 
-  buildSubForm(obj, objname) {
-    if(!obj || !obj.id) return m('.scouter-feature-edit-div');
-    return m('.scouter-feature-edit-div', [
-      m('label.feature-edit-div', objname),
-      m('label.feature-edit', obj.id),
-      Object.entries(obj).forEach( property => {
-        if(property instanceof Object) {
-          return this.buildSubForm(property, '');
-        } else{
-          m('div'[
-//            m('label', { for: 'feature-input-' + property })
-            m('span', property)
-          ])
-        }
-      })
+  buildSubForm(obj) {
+    return m('div', [
+      Object.entries(obj).map( property => (
+        m('div', [
+          m('label', property[0]),
+          (property[1] instanceof Object) ?
+            buildSubForm(property[1]) :
+            m('input[type=text]', { value: property[1] })
+        ])
+      )),
+      m('button', '+')
     ]);
   }
 
   saveAndClose(feature) {
-    feature.target.editing.disable();
+    this.editHandler.disable();
   }
 
   cancelAndClose(feature) {
@@ -47,7 +39,7 @@ class FeatureEditForm {
   }
 
   deleteAndClose(feature) {
-    feature.target.editing.disable();
+    this.editHandler.disable();
   }
 
   show(feature, editHandler) {

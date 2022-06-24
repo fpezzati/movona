@@ -33,14 +33,15 @@ One of the key components in ScouterWeb is the function that allows gui componen
 
 ### ScouterWeb integrates with PlannerWeb by sharing events
 Random ideas:
-- each event should be passed to planner as html custom event
+- some event should be passed to planner as html custom event
 
 ### TODO:
+- edit form is too basic: events does not work, add a '+' button to add attributes,
 - refactor code! The way components are arranged is bad, tools are suppose to created where needed but they need map that is created in the index.js. That mess because I did not implement any dependency injection mechanism in my fe components.
 - bare UX is defined, fix cypress tests,
+- to use a toggle draw button (current implementation) or force user to hit button or Ctrl-D every time he wants to draw?
 - provide keyboard shortcut to toggle draw feature,
-- how scouter and planner integrates:
-- think about CI/CD here.
+- think about CI/CD.
 
 ### DONE:
 - move complexity from Tools component,
