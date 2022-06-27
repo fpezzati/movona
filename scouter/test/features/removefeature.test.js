@@ -28,7 +28,6 @@ tape('sut raises an exception when there is no matching element', (assert) => {
   assert.throws(() => {
     sut.behave(msg, state);
   }, {
-    id: '1234',
     message: 'given id has no match.'
   }, 'Given id has no match.');
   assert.end();

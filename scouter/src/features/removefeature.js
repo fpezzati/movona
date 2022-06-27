@@ -25,9 +25,7 @@ class RemoveFeature {
       return feature.properties.id !== evt.payload.id;
     });
     if(!found) {
-      let e = new RangeError('given id has no match.');
-      e.id = payload.id;
-      throw e;
+      throw new Error('given id has no match.');
     }
     return state;
   }
