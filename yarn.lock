@@ -6588,9 +6588,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventshandler@file:../eventshandler::locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3De198bd%26locator%3Dscouter-web%2540workspace%253Ascouter-web":
+"eventshandler@file:../eventshandler::locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3De83e24%26locator%3Dscouter-web%2540workspace%253Ascouter-web":
   version: 0.0.0
-  resolution: "eventshandler@file:../eventshandler#../eventshandler::hash=9dba98&locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3De198bd%26locator%3Dscouter-web%2540workspace%253Ascouter-web"
+  resolution: "eventshandler@file:../eventshandler#../eventshandler::hash=9dba98&locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3De83e24%26locator%3Dscouter-web%2540workspace%253Ascouter-web"
   checksum: aba0503de2460ce3162a0c55f9145eabaaeafa3fdbe6b8d2f55356e2267828ec743b4689834d2acf381942dbd2bc2fa92eb564c5dbde1f7b427bd5423157fbab
   languageName: node
   linkType: hard
@@ -9183,6 +9183,13 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"object-scan@npm:^18.3.4":
+  version: 18.3.4
+  resolution: "object-scan@npm:18.3.4"
+  checksum: 579c0fe29a4d966ff91f78f1b2629ae6d06445be69d67634b3a4268e8f23bc6c8c34a39dd34202107cb1431d8b5a41f7044bfc57cc9d7078acbfa5d186480b59
+  languageName: node
+  linkType: hard
+
 "object.assign@npm:^4.1.0, object.assign@npm:^4.1.2":
   version: 4.1.2
   resolution: "object.assign@npm:4.1.2"
@@ -10341,12 +10348,13 @@ resolve@^2.0.0-next.3:
 
 "scouter@file:../scouter::locator=scouter-web%40workspace%3Ascouter-web":
   version: 0.0.0
-  resolution: "scouter@file:../scouter#../scouter::hash=e198bd&locator=scouter-web%40workspace%3Ascouter-web"
+  resolution: "scouter@file:../scouter#../scouter::hash=e83e24&locator=scouter-web%40workspace%3Ascouter-web"
   dependencies:
     eventshandler: ../eventshandler
     geojson-validation: ^1.0.2
+    object-scan: ^18.3.4
     uuid: ^8.3.2
-  checksum: eb72d242f199cf060deeca10281d864426c65c2b4075861d2598a42899c740bf7a54e57be5ffdc51447beade5d6c1de7a84945199e2bb290ecb3aac10e7b62d6
+  checksum: b72edd1e246319131a75b49b733771b92e86669c2db487c18d8f2773176fd7c9bb5f55992a734ba2db3e96e6ca2e4c4789e9c83e3faa63b49659d97eefb15490
   languageName: node
   linkType: hard
 

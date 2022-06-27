@@ -20,7 +20,7 @@ import Main from './ui/main.js';
 import Scouter from 'scouter/dist/scouter';
 import {v4 as uuid4} from 'uuid';
 
-var featureEditForm = new FeatureEditForm();
+var featureEditForm;
 
 class ScouterWeb extends HTMLElement {
   constructor() {
@@ -46,6 +46,7 @@ class ScouterWeb extends HTMLElement {
       new Polylinedrawer(this.send.bind(this)),
       new UploadGeoJsonMap(this.send.bind(this))
     ]);
+    featureEditForm = new FeatureEditForm(this.send.bind(this));
     this.main = new Main([tools, featureEditForm]);
   }
 

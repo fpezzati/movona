@@ -7,7 +7,7 @@
     "dev": "webpack serve --mode='development'",
     "test": "tape -r @babel/register $(find ./test/ -name '*.test.js')",
     "debug-test": "node --inspect-brk -r @babel/register $file",
-    "acceptance-test" : "cypress run --spec **/*.feature",
+    "acceptance-test": "cypress run --spec **/*.feature",
     "ci": "start-server-and-test dev http-get://localhost:8080 acceptance-test"
   },
   "dependencies": {
