@@ -3969,7 +3969,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"abab@npm:^2.0.5":
+"abab@npm:^2.0.5, abab@npm:^2.0.6":
   version: 2.0.6
   resolution: "abab@npm:2.0.6"
   checksum: 6ffc1af4ff315066c62600123990d87551ceb0aafa01e6539da77b0f5987ac7019466780bf480f1787576d4385e3690c81ccc37cfda12819bf510b8ab47e5a3e
@@ -6588,9 +6588,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eventshandler@file:../eventshandler::locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3De83e24%26locator%3Dscouter-web%2540workspace%253Ascouter-web":
+"eventshandler@file:../eventshandler::locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3D3c4b36%26locator%3Dscouter-web%2540workspace%253Ascouter-web":
   version: 0.0.0
-  resolution: "eventshandler@file:../eventshandler#../eventshandler::hash=9dba98&locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3De83e24%26locator%3Dscouter-web%2540workspace%253Ascouter-web"
+  resolution: "eventshandler@file:../eventshandler#../eventshandler::hash=9dba98&locator=scouter%40file%3A..%2Fscouter%23..%2Fscouter%3A%3Ahash%3D3c4b36%26locator%3Dscouter-web%2540workspace%253Ascouter-web"
   checksum: aba0503de2460ce3162a0c55f9145eabaaeafa3fdbe6b8d2f55356e2267828ec743b4689834d2acf381942dbd2bc2fa92eb564c5dbde1f7b427bd5423157fbab
   languageName: node
   linkType: hard
@@ -9183,13 +9183,6 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"object-scan@npm:^18.3.4":
-  version: 18.3.4
-  resolution: "object-scan@npm:18.3.4"
-  checksum: 579c0fe29a4d966ff91f78f1b2629ae6d06445be69d67634b3a4268e8f23bc6c8c34a39dd34202107cb1431d8b5a41f7044bfc57cc9d7078acbfa5d186480b59
-  languageName: node
-  linkType: hard
-
 "object.assign@npm:^4.1.0, object.assign@npm:^4.1.2":
   version: 4.1.2
   resolution: "object.assign@npm:4.1.2"
@@ -10348,13 +10341,12 @@ resolve@^2.0.0-next.3:
 
 "scouter@file:../scouter::locator=scouter-web%40workspace%3Ascouter-web":
   version: 0.0.0
-  resolution: "scouter@file:../scouter#../scouter::hash=e83e24&locator=scouter-web%40workspace%3Ascouter-web"
+  resolution: "scouter@file:../scouter#../scouter::hash=3c4b36&locator=scouter-web%40workspace%3Ascouter-web"
   dependencies:
     eventshandler: ../eventshandler
     geojson-validation: ^1.0.2
-    object-scan: ^18.3.4
     uuid: ^8.3.2
-  checksum: b72edd1e246319131a75b49b733771b92e86669c2db487c18d8f2773176fd7c9bb5f55992a734ba2db3e96e6ca2e4c4789e9c83e3faa63b49659d97eefb15490
+  checksum: 9185a3ecf3edd38930e3304c8375f83c2760860ee29d9c53cbb4668ab6050bcd911759ddbb103e3d89fe094b368f05dfb8c3bc8a33d2d2ade85da5527a61ccf8
   languageName: node
   linkType: hard
 
@@ -10369,6 +10361,7 @@ resolve@^2.0.0-next.3:
     eventshandler: ../eventshandler
     geojson-validation: ^1.0.2
     lodash: ^4.17.21
+    source-map-loader: ^4.0.0
     tape: ^5.3.1
     uuid: ^8.3.2
     webpack: ^5.60.0
@@ -10701,7 +10694,7 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
-"source-map-js@npm:^1.0.1":
+"source-map-js@npm:^1.0.1, source-map-js@npm:^1.0.2":
   version: 1.0.2
   resolution: "source-map-js@npm:1.0.2"
   checksum: c049a7fc4deb9a7e9b481ae3d424cc793cb4845daa690bc5a05d428bf41bf231ced49b4cf0c9e77f9d42fdb3d20d6187619fc586605f5eabe995a316da8d377c
@@ -10718,6 +10711,19 @@ resolve@^2.0.0-next.3:
   peerDependencies:
     webpack: ^5.0.0
   checksum: 6ff27ba9335307e64edaab8fb8f87aa82a88d7efb12260732f7e3649c3fffe8bd3f77b6970c39c0bdd5e3a9b2a5ed8f11ac805bea90a6c99f186aa52033e53e0
+  languageName: node
+  linkType: hard
+
+"source-map-loader@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "source-map-loader@npm:4.0.0"
+  dependencies:
+    abab: ^2.0.6
+    iconv-lite: ^0.6.3
+    source-map-js: ^1.0.2
+  peerDependencies:
+    webpack: ^5.72.1
+  checksum: 0b169701735bd6a32d66bff84b7475c31066972d717ebef5a24476cc8678cd19c2b8ebe03a7d62ade9586d4f7ba55c17772fdc8d8bc159dcb9315c757a01046e
   languageName: node
   linkType: hard
 

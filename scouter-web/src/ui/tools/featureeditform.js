@@ -17,11 +17,11 @@ class FeatureEditForm {
   }
 
   cancelAndClose(feature) {
-    this.send({ command: 'remove_feature', payload: { id: feature.properties.id } });
     this.editHandler.disable();
   }
 
   deleteAndClose(feature) {
+    this.send({ command: 'remove_feature', payload: { id: feature.properties.id } });
     this.editHandler.disable();
   }
 
