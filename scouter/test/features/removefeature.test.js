@@ -5,7 +5,7 @@ import RemoveFeature from '../../src/features/removefeature.js';
 /*
 Sut has a command property valued as newmap.
 */
-tape('sut has a command property valued as "remove_feature".', function(assert) {
+tape('RemoveFeature has a command property valued as "remove_feature".', function(assert) {
   const sut = new RemoveFeature;
   assert.ok(lodash.isEqual(sut.command, 'remove_feature'));
   assert.end();
@@ -14,9 +14,9 @@ tape('sut has a command property valued as "remove_feature".', function(assert) 
 /*
 When there is no match sut raises an exception.
 */
-tape('sut raises an exception when there is no matching element', (assert) => {
+tape('RemoveFeature does nothing when there is no matching element', (assert) => {
   const msg = getMessage('1234');
-  const state = {
+  const expected = {
     "document_map": {
       "features": [
         { "type": "Feature", "properties": { id: '1', data: 'hey' } },
@@ -25,11 +25,8 @@ tape('sut raises an exception when there is no matching element', (assert) => {
     }
   };
   const sut = new RemoveFeature;
-  assert.throws(() => {
-    sut.behave(msg, state);
-  }, {
-    message: 'given id has no match.'
-  }, 'Given id has no match.');
+  const actual = sut.behave(msg, expected);
+  assert.ok(lodash.isEqual(actual, expected));
   assert.end();
 });
 

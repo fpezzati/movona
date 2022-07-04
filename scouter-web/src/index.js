@@ -92,6 +92,9 @@ class ScouterWeb extends HTMLElement {
     if(this.geoJSONLayer) {
       this.geoJSONLayer.clearLayers();
     }
+    map.eachLayer(function(layer) {
+      if(layer.options.pane === "tooltipPane") layer.removeFrom(map);
+    });
     var labels = [];
     L.geoJSON(state.support_map).addTo(map);
     this.geoJSONLayer = L.geoJSON(state.document_map, {

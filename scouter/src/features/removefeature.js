@@ -20,14 +20,20 @@ class RemoveFeature {
   behave(evt, state) {
     this.validatePayload(evt.payload);
     let found = false;
-    state.document_map.features = state.document_map.features.filter( (feature) => {
-      if(feature.properties.id === evt.payload.id) found = true;
-      return feature.properties.id !== evt.payload.id;
-    });
-    if(!found) {
-      throw new Error('given id has no match.');
-    }
+    state.document_map.features = this.filterMatchingFeature(state.document_map.features, evt.payload.id);
     return state;
+  }
+
+  filterMatchingFeature(features, id) {
+    return features.filter( (feature) => {
+      if(feature.properties && feature.properties.id === id) {
+        return false;
+      }
+      if(feature.features) {
+        feature.features = this.filterMatchingFeature(feature.features, id);
+      }
+      return true;
+    });
   }
 
   validatePayload(payload) {
