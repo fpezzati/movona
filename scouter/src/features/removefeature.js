@@ -1,7 +1,6 @@
 const lodash = require('lodash');
 /*
-Removes feature matching by id from the document. Relies on object-scan.
-https://www.npmjs.com/package/object-scan
+Removes feature matching by id from the document. If no feature matches the given id, nothing happens.
 
 Expected message:
 {

@@ -3,7 +3,7 @@ const lodash = require('lodash');
 import RemoveFeature from '../../src/features/removefeature.js';
 
 /*
-Sut has a command property valued as newmap.
+Sut has a command property valued as remove_feature.
 */
 tape('RemoveFeature has a command property valued as "remove_feature".', function(assert) {
   const sut = new RemoveFeature;
