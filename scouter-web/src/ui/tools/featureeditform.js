@@ -13,6 +13,7 @@ class FeatureEditForm {
   }
 
   saveAndClose(feature) {
+    this.send({ command: 'update_feature', payload: feature });
     this.editHandler.disable();
   }
 
@@ -29,7 +30,23 @@ class FeatureEditForm {
     this.feature = feature;
     if(!this.feature || !this.feature.properties) this.fef = m('div', { style: { display: 'none' }});
     this.fef = m('div', [
-      this.buildSubForm(this.feature.properties),
+//      this.buildSubForm(this.feature.properties),
+      m('label', { for: 'feature_start_name' }, 'start name'),
+      m('input[type=text]', {
+        value: this.feature.properties.start_name,
+        name: 'feature_start_name',
+        onchange: (e) => {
+          this.feature.properties.start_name = e.target.value
+        }
+     }),
+      m('label', { for: 'feature_end_name' }, 'end name'),
+      m('input[type=text]', {
+        value: this.feature.properties.end_name,
+        name: 'feature_end_name',
+        onchange: (e) => {
+          this.feature.properties.end_name = e.target.value
+        }
+      }),
       m('button', { onclick: () => this.cancelAndClose(this.feature) }, 'Cancel'),
       m('button', { onclick: () => this.deleteAndClose(this.feature) }, 'Delete'),
       m('button', { onclick: () => this.saveAndClose(this.feature) }, 'Save')
@@ -51,7 +68,9 @@ class FeatureEditForm {
           m('label', property[0]),
           (property[1] instanceof Object) ?
             buildSubForm(property[1]) :
-            m('input[type=text]', { value: property[1] })
+            m('input[type=text]', { value: property[1], onchange: (e) => {
+              property[1] = e.target.value
+            } })
         ])
       ));
 // Keep that commented for now because there is no real need of.

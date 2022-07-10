@@ -18,9 +18,9 @@ tape('Scouter ships a ready-to-go "eventshandler" attribute.', function(assert){
 /*
 scouter cover three features, a ctrlz handler and a default handler for a total of 6.
 */
-tape('Scouter has 6 handlers.', function(assert) {
+tape('Scouter has 7 handlers.', function(assert) {
   var sut = new Scouter;
-  assert.equal(sut.eventshandler.eventbus.handlers.size, 6);
+  assert.equal(sut.eventshandler.eventbus.handlers.size, 7);
   assert.end();
 });
 

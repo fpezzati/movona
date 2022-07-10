@@ -3,6 +3,7 @@ import Addplace from './features/addplace';
 import Addsupportmap from './features/addsupportmap';
 import Newmap from './features/newmap';
 import RemoveFeature from './features/removefeature';
+import UpdateFeature from './features/updatefeature';
 /*
 Glues together all the features that compose 'scouter'.
 It relies on 'eventshandler' to manage events and ensure they will be managed by the right handler.
@@ -15,10 +16,12 @@ class Scouter {
     let addsupportmap = new Addsupportmap;
     let newmap = new Newmap;
     const removefeature = new RemoveFeature;
+    const updatefeature = new UpdateFeature;
     eventbus.handlers.set(addplace.command, addplace);
     eventbus.handlers.set(addsupportmap.command, addsupportmap);
     eventbus.handlers.set(newmap.command, newmap);
     eventbus.handlers.set(removefeature.command, removefeature);
+    eventbus.handlers.set(updatefeature.command, updatefeature);
     this.eventshandler = new EventsHandler(eventbus, new Ctrlz);
   }
 
