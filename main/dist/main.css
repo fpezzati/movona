@@ -1,0 +1,15 @@
+html, body {
+  height: 100%;
+}
+
+.main-header {
+  background-color: red;
+  height: 40px;
+  width: 100%;
+}
+
+.main-footer {
+  background-color: blue;
+  height: 40px;
+  width: 100%;
+}
