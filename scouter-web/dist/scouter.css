@@ -46,7 +46,6 @@ html, body {
   position: absolute;
   top: 0;
   right: 0;
-  position: absolute;
 }
 
 .scouter-tools-main-button {
@@ -59,4 +58,16 @@ html, body {
 
 .scouter-toolbar-menu {
   padding: 0;
+}
+
+.path-bound-label {
+  position: absolute;
+  display: flex;
+  text-align: center;
+}
+
+.scouter-feature-edit {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }

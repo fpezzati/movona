@@ -6,24 +6,27 @@
     "build": "webpack",
     "dev": "webpack serve --mode='development'",
     "test": "tape -r @babel/register $(find ./test/ -name '*.test.js')",
-    "acceptance-test": "cucumber-js",
-    "debug-test": "node --inspect-brk -r @babel/register $file"
+    "debug-test": "node --inspect-brk -r @babel/register $file",
+    "acceptance-test": "cypress run --spec **/*.feature",
+    "ci": "start-server-and-test dev http-get://localhost:8080 acceptance-test"
   },
   "dependencies": {
     "leaflet": "^1.7.1",
     "leaflet-draw": "^1.0.4",
     "lodash": "^4.17.21",
     "mithril": "^2.0.4",
-    "scouter": "../scouter"
+    "scouter": "../scouter",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@babel/register": "^7.16.0",
-    "@cucumber/cucumber": "^7.3.2",
     "babel-loader": "^8.2.3",
     "cypress": "^9.5.3",
     "cypress-cucumber-preprocessor": "^4.3.1",
+    "source-map-loader": "^3.0.1",
+    "start-server-and-test": "^1.14.0",
     "webpack": "^5.64.4",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.5.0"

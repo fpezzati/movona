@@ -15,8 +15,12 @@ import L from 'leaflet';
 import Polylinedrawer from './ui/tools/polylinedrawer';
 import UploadGeoJsonMap from './ui/tools/uploadgeojsonmap';
 import Tools from './ui/tools/tools';
+import FeatureEditForm from './ui/tools/featureeditform';
 import Main from './ui/main.js';
 import Scouter from 'scouter/dist/scouter';
+import {v4 as uuid4} from 'uuid';
+
+var featureEditForm;
 
 class ScouterWeb extends HTMLElement {
   constructor() {
@@ -24,20 +28,31 @@ class ScouterWeb extends HTMLElement {
     this._shadowRoot = this.attachShadow({ 'mode': 'open' });
     this._shadowRoot.appendChild(tmplt.content.cloneNode(true));
     this.scouter = new Scouter;
-    this.state = {};
+    this.state = { document_map: { features: [] } };
     this.main = {};
+    var drawPolylineHandler = {
+      command: 'draw_polyline',
+      behave: function(msg, state) {
+        state.draw = msg.payload.value;
+        return state;
+      }
+    };
+    this.scouter.eventshandler.eventbus.handlers.set(drawPolylineHandler.command, drawPolylineHandler);
+    JSON.stringify(this.scouter.eventshandler.handlers);
   }
 
   configureUI(map) {
-    var polylineDrawer = new Polylinedrawer(map);
-    var uploadGeoJsonMap = new UploadGeoJsonMap(this.send.bind(this));
-    var tools = new Tools([polylineDrawer, uploadGeoJsonMap]);
-    this.main = new Main(tools);
+    var tools = new Tools([
+      new Polylinedrawer(this.send.bind(this)),
+      new UploadGeoJsonMap(this.send.bind(this))
+    ]);
+    featureEditForm = new FeatureEditForm(this.send.bind(this));
+    this.main = new Main([tools, featureEditForm]);
   }
 
   connectedCallback() {
     let mapElement = this._shadowRoot.getElementById('map');
-    this.map = L.map(mapElement);
+    this.map = L.map(mapElement, { editable: true });
     this.map.setView([43.75125720420175, 11.2445068359375], 9);
     this.geojsonLayer = L.geoJSON().addTo(this.map);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -45,13 +60,21 @@ class ScouterWeb extends HTMLElement {
     }).addTo(this.map);
 
     this.map.on(L.Draw.Event.CREATED, (evt)=>{
-      console.log("geometry created: " + JSON.stringify(evt.layerType));
-      new L.Draw.Polyline(this.map, {}).enable();
-      this.send({ command: 'addplace', payload: evt.layer })
+      var featureGroup = L.featureGroup();
+      featureGroup.addLayer(evt.layer);
+      var feature = featureGroup.toGeoJSON();
+      feature.features[0].properties.id = uuid4();
+      feature.features[0].properties.start_name = "node01";
+      feature.features[0].properties.end_name = "node02";
+      this.send({ command: 'addplace', payload: feature });
     });
+
+    this.map.on('editable:vertex:ctrlclick editable:vertex:metakeyclick', function(geoElem) {
+      geoElem.vertex.continue();
+    });
+
     this.configureUI(this.map);
 
-    new L.Draw.Polyline(this.map, {}).enable();
     this.main.send = this.send.bind(this);
     this.main.scouter = this.scouter;
     this.main.state = this.state;
@@ -61,13 +84,53 @@ class ScouterWeb extends HTMLElement {
 
   send(event) {
     this.state = this.scouter.accept(event, this.state);
-    this.refresh(this.state);
+    this.refresh(this.state, this.map);
   }
 
-  refresh(state) {
+  refresh(state, map) {
     console.log("refreshing");
-    this.geojsonLayer.remove();
-    this.geojsonLayer = L.geoJSON(state.support_map).addTo(this.map);
+    if(this.geoJSONLayer) {
+      this.geoJSONLayer.clearLayers();
+    }
+    map.eachLayer(function(layer) {
+      if(layer.options.pane === "tooltipPane") layer.removeFrom(map);
+    });
+    var labels = [];
+    L.geoJSON(state.support_map).addTo(map);
+    this.geoJSONLayer = L.geoJSON(state.document_map, {
+      onEachFeature: function(feature, layer) {
+        layer.on('click', (e) => {
+          e.target.editing.enable();
+          featureEditForm.show(e.sourceTarget.feature, e.target.editing);
+        });
+        L.marker(feature.geometry.coordinates[0]).bindTooltip(feature.properties.start_name, {
+          permanent: true
+        }).addTo(map);
+        L.marker(feature.geometry.coordinates[feature.geometry.coordinates.length - 1]).bindTooltip(feature.properties.end_name, {
+          permanent: true
+        }).addTo(map);
+        labels.push({
+          name: feature.properties.start_name ? feature.properties.start_name : feature.properties.id,
+          lat: feature.geometry.coordinates[0][1],
+          lng: feature.geometry.coordinates[0][0]
+        });
+        labels.push({
+          name: feature.properties.end_name ? feature.properties.end_name : feature.properties.id,
+          lat: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][1],
+          lng: feature.geometry.coordinates[feature.geometry.coordinates.length - 1][0]
+        });
+      }
+    });
+    this.geoJSONLayer.addTo(map);
+    if(state.draw === 'polyline') {
+      this.polylineDrawer = new L.Draw.Polyline(map, {});
+      this.polylineDrawer.enable();
+    } else {
+      this.polylineDrawer.disable();
+    }
+    labels.forEach((label)=>{
+      map.openTooltip(label.name, { lat: label.lat, lng: label.lng }, { permanent: true });
+    });
   }
 }
 window.customElements.define('scouter-web', ScouterWeb);

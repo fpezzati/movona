@@ -4,8 +4,9 @@ import m from 'mithril';
 
 class Polylinedrawer {
 
-  constructor(map) {
-    this.map = map;
+  constructor(send) {
+    this.polylineDrawEnabled = false;
+    this.send = send;
   }
 
   view(vnode) {
@@ -13,9 +14,12 @@ class Polylinedrawer {
   }
 
   drawRoute(vnode) {
-    console.log("draw route clicked");
-    this.polyDrawer = new L.Draw.Polyline(this.map, {});
-    this.polyDrawer.enable();
+    if(!this.polylineDrawEnabled) {
+      this.send({ command: 'draw_polyline', payload: { value: 'polyline' } });
+    } else {
+      this.send({ command: 'draw_polyline', payload: { value: 'none' } })
+    }
+    this.polylineDrawEnabled = !this.polylineDrawEnabled;
   }
 }
 export default Polylinedrawer;

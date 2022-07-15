@@ -1,1 +1,118 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.eventshandler=t():e.eventshandler=t()}(this,(function(){return(()=>{"use strict";var e={d:(t,n)=>{for(var r in n)e.o(n,r)&&!e.o(t,r)&&Object.defineProperty(t,r,{enumerable:!0,get:n[r]})},o:(e,t)=>Object.prototype.hasOwnProperty.call(e,t),r:e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})}},t={};function n(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function r(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}e.r(t),e.d(t,{Ctrlz:()=>c,Eventbus:()=>o,EventsHandler:()=>l});var a=function(){function e(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{command:"default",behave:function(e,t){return console.log("Not aware of: "+JSON.stringify(e)),t}};n(this,e),this.handlers=new Map,this.handlers.set(t.command,t.behave)}var t,a;return t=e,(a=[{key:"accept",value:function(e,t){try{var n=JSON.parse(JSON.stringify(t)),r=JSON.parse(JSON.stringify(e));return void 0===this.handlers.get(e.command)?this.handlers.get("default").call(this,r,n):this.handlers.get(e.command).behave(r,n)}catch(e){return JSON.parse(JSON.stringify(n))}}}])&&r(t.prototype,a),e}();const o=a;function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function u(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}var s=function(){function e(){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:10,n=arguments.length>1?arguments[1]:void 0;i(this,e),this.queueMaxSize=t,this.queue=[],this.state={},this.stateHandler=n}var t,n;return t=e,(n=[{key:"accept",value:function(e,t){this.queue.length<1?this.state=t:this.queue.length>=this.queueMaxSize&&(this.state=this.updateStateAndQueue(this.queue,this.state,this.stateHandler)),this.queue.push(e)}},{key:"updateStateAndQueue",value:function(e,t,n){var r=e[0];return e.shift(),null==n?t:n.accept(r,t)}}])&&u(t.prototype,n),e}();const c=s;function l(e,t){e.handlers.set("ctrlz",{behave:function(n,r){var a,o;a=t.queue,o=n.howmany||1,a.splice(a.length-o,a.length-1);var i=JSON.parse(JSON.stringify(t.state));return t.queue.forEach((function(t){i=e.accept(t,i)})),i}});var n={accept:function(n,r){var a=e.accept(n,r);return t.accept(n,r),a}};return n.eventbus=e,n.ctrlz=t,n}return t})()}));
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["eventshandler"] = factory();
+	else
+		root["eventshandler"] = factory();
+})(this, function() {
+return /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/ctrlz.js":
+/*!**********************!*\
+  !*** ./src/ctrlz.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar Ctrlz = /*#__PURE__*/function () {\n  function Ctrlz() {\n    var queuesize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;\n    var statusHandler = arguments.length > 1 ? arguments[1] : undefined;\n\n    _classCallCheck(this, Ctrlz);\n\n    this.queueMaxSize = queuesize;\n    this.queue = [];\n    this.state = {};\n    this.stateHandler = statusHandler;\n  }\n\n  _createClass(Ctrlz, [{\n    key: \"accept\",\n    value: function accept(command, state) {\n      if (this.queue.length < 1) {\n        this.state = state;\n      } else if (this.queue.length >= this.queueMaxSize) {\n        this.state = this.updateStateAndQueue(this.queue, this.state, this.stateHandler);\n      }\n\n      this.queue.push(command);\n    }\n  }, {\n    key: \"updateStateAndQueue\",\n    value: function updateStateAndQueue(queue, state, handler) {\n      var command = queue[0];\n      queue.shift();\n\n      if (handler == undefined) {\n        return state;\n      } else {\n        return handler.accept(command, state);\n      }\n    }\n  }]);\n\n  return Ctrlz;\n}();\n\n;\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Ctrlz);\n\n//# sourceURL=webpack://eventshandler/./src/ctrlz.js?");
+
+/***/ }),
+
+/***/ "./src/eventbus.js":
+/*!*************************!*\
+  !*** ./src/eventbus.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nfunction _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError(\"Cannot call a class as a function\"); } }\n\nfunction _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if (\"value\" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }\n\nfunction _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }\n\nvar Eventbus = /*#__PURE__*/function () {\n  function Eventbus() {\n    var defaultHandler = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {\n      command: \"default\",\n      behave: function behave(msg, state) {\n        console.log(\"Not aware of: \" + JSON.stringify(msg));\n        return state;\n      }\n    };\n\n    _classCallCheck(this, Eventbus);\n\n    this.handlers = new Map();\n    this.handlers.set(defaultHandler.command, defaultHandler.behave);\n  }\n\n  _createClass(Eventbus, [{\n    key: \"accept\",\n    value: function accept(message, state) {\n      try {\n        var copyedState = JSON.parse(JSON.stringify(state));\n        var copyedMessage = JSON.parse(JSON.stringify(message));\n\n        if (typeof this.handlers.get(message.command) === 'undefined') {\n          return this.handlers.get('default').call(this, copyedMessage, copyedState);\n        }\n\n        return this.handlers.get(message.command)['behave'](copyedMessage, copyedState);\n      } catch (error) {\n        console.log(\"Error: \" + JSON.stringify(error));\n        return state;\n      }\n    }\n  }]);\n\n  return Eventbus;\n}();\n\n;\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Eventbus);\n\n//# sourceURL=webpack://eventshandler/./src/eventbus.js?");
+
+/***/ }),
+
+/***/ "./src/eventshandler.js":
+/*!******************************!*\
+  !*** ./src/eventshandler.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"EventsHandler\": () => (/* binding */ EventsHandler),\n/* harmony export */   \"Eventbus\": () => (/* reexport safe */ _src_eventbus_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n/* harmony export */   \"Ctrlz\": () => (/* reexport safe */ _src_ctrlz_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])\n/* harmony export */ });\n/* harmony import */ var _src_eventbus_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../src/eventbus.js */ \"./src/eventbus.js\");\n/* harmony import */ var _src_ctrlz_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../src/ctrlz.js */ \"./src/ctrlz.js\");\n\n\n\nfunction EventsHandler(eventbus, ctrlz) {\n  eventbus.handlers.set(\"ctrlz\", {\n    behave: function behave(evt, state) {\n      removeLastHowmanyEvents(ctrlz.queue, evt.howmany || 1);\n      var ctrlzState = JSON.parse(JSON.stringify(ctrlz.state));\n      ctrlz.queue.forEach(function (event) {\n        ctrlzState = eventbus.accept(event, ctrlzState);\n      });\n      return ctrlzState;\n    }\n  });\n\n  function removeLastHowmanyEvents(queue, howmany) {\n    queue.splice(queue.length - howmany, queue.length - 1);\n  }\n\n  var eventsHandler = {\n    accept: function accept(evt, state) {\n      var newstate = eventbus.accept(evt, state);\n      ctrlz.accept(evt, state);\n      return newstate;\n    }\n  };\n  eventsHandler.eventbus = eventbus;\n  eventsHandler.ctrlz = ctrlz;\n  return eventsHandler;\n}\n\n\n\n//# sourceURL=webpack://eventshandler/./src/eventshandler.js?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/eventshandler.js");
+/******/ 	
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});

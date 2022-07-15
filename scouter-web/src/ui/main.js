@@ -14,12 +14,15 @@ class Main {
       this.tools.scouter = vnode.state.scouter;
       this.tools.state = vnode.state.state;
       this.tools.send = this.send;
+      this.tools.forEach(tool => {
+        tool.send = this.send;
+      });
   }
 
   view(vnode) {
-    return m("div",[
-      m(this.tools)
-    ], "Scouter, the path driver!")
+    return m('div', [
+      this.tools.map(tool => m(tool) )
+    ], "Scouter, the path driver!");
   }
 }
 export default Main;

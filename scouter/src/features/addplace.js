@@ -1,5 +1,5 @@
-var lodash = require('lodash');
-var geojv = require("geojson-validation");
+const lodash = require('lodash');
+const geojv = require("geojson-validation");
 /*
 Allows user to add a geographical place (a point) to the document map.
 
