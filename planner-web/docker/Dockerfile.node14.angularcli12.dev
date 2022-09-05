@@ -1,5 +1,5 @@
 FROM node:14-alpine
+WORKDIR /movona/planner-web
 RUN npm install -g @angular/cli
 USER node
-WORKDIR /movona
 CMD npm start

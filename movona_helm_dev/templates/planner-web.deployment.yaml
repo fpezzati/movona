@@ -16,17 +16,17 @@ spec:
     spec:
       containers:
         - name: planner-web-app
-          image: planner-web-n14a12
-          imagePullPolicy: Never
+          image: movona/planner-web-n14a12:dev20220905001
+          imagePullPolicy: Always
           workingDir: /movona/planner-web
           command: ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
           ports:
             - containerPort: 4200
           volumeMounts:
-            - mountPath: /movona
+            - mountPath: /movona/planner-web/
               name: planner-web-fs
       volumes:
         - name: planner-web-fs
           hostPath:
-            path: /movona
+            path: /movona/planner-web
             type: Directory
