@@ -30,7 +30,6 @@ class FeatureEditForm {
     this.feature = feature;
     if(!this.feature || !this.feature.properties) this.fef = m('div', { style: { display: 'none' }});
     this.fef = m('div', [
-//      this.buildSubForm(this.feature.properties),
       m('label', { for: 'feature_start_name' }, 'start name'),
       m('input[type=text]', {
         value: this.feature.properties.start_name,

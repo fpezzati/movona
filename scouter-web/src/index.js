@@ -59,9 +59,14 @@ class ScouterWeb extends HTMLElement {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
+    this.map.on('baselayerchange', (evt)=>{
+      console.log(evt);
+    });
+
     this.map.on(L.Draw.Event.CREATED, (evt)=>{
       var featureGroup = L.featureGroup();
       featureGroup.addLayer(evt.layer);
+
       var feature = featureGroup.toGeoJSON();
       feature.features[0].properties.id = uuid4();
       feature.features[0].properties.start_name = "node01";
@@ -96,19 +101,17 @@ class ScouterWeb extends HTMLElement {
       if(layer.options.pane === "tooltipPane") layer.removeFrom(map);
     });
     var labels = [];
+    var sendService = this;
     L.geoJSON(state.support_map).addTo(map);
     this.geoJSONLayer = L.geoJSON(state.document_map, {
       onEachFeature: function(feature, layer) {
         layer.on('click', (e) => {
           e.target.editing.enable();
           featureEditForm.show(e.sourceTarget.feature, e.target.editing);
+          e.target.on("edit", (editedEvt)=>{
+            featureEditForm.show(mergeLayerGeometryInGeoJSONFeature(editedEvt.target._latlngs, e.sourceTarget.feature), e.target.editing);
+          });
         });
-        L.marker(feature.geometry.coordinates[0]).bindTooltip(feature.properties.start_name, {
-          permanent: true
-        }).addTo(map);
-        L.marker(feature.geometry.coordinates[feature.geometry.coordinates.length - 1]).bindTooltip(feature.properties.end_name, {
-          permanent: true
-        }).addTo(map);
         labels.push({
           name: feature.properties.start_name ? feature.properties.start_name : feature.properties.id,
           lat: feature.geometry.coordinates[0][1],
@@ -133,4 +136,14 @@ class ScouterWeb extends HTMLElement {
     });
   }
 }
+
+function mergeLayerGeometryInGeoJSONFeature(geometries, feature) {
+  let featureToReturn = JSON.parse(JSON.stringify(feature));
+  featureToReturn.geometry.coordinates = [];
+  geometries.forEach((geom, pos) => {
+    featureToReturn.geometry.coordinates.push([geom.lng, geom.lat]);
+  });
+  return featureToReturn;
+}
+
 window.customElements.define('scouter-web', ScouterWeb);
