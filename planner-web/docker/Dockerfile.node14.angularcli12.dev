@@ -1,0 +1,5 @@
+FROM node:14-alpine
+WORKDIR /movona/planner-web
+RUN npm install -g @angular/cli
+USER node
+CMD npm start

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: planner-web-deployment
+  namespace: movona
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: planner-web-app
+  template:
+    metadata:
+      labels:
+        name: planner-web-app
+        app: planner-web
+    spec:
+      containers:
+        - name: planner-web-app
+          image: movona/planner-web-n14a12:dev20220905001
+          imagePullPolicy: Always
+          workingDir: /movona/planner-web
+          command: ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
+          ports:
+            - containerPort: 4200
+          volumeMounts:
+            - mountPath: /movona/planner-web/
+              name: planner-web-fs
+      volumes:
+        - name: planner-web-fs
+          hostPath:
+            path: /movona/planner-web
+            type: Directory

@@ -6,7 +6,7 @@
     "eventshandler",
     "scouter",
     "scouter-web",
-    "planner",
+    "planner-web",
     "main"
   ],
   "scripts": {
