@@ -31,17 +31,28 @@ This is Scoute's web interface: a web component that is in charge to render what
 
 One of the key components in ScouterWeb is the function that allows gui components to send an event that will update application's state and refresh gui itself.
 
-### ScouterWeb integrates with PlannerWeb by sharing events
-Random ideas:
-- some event should be passed to planner as html custom event
+Right now ScouterWeb provides CRUD functionalities about creating and editing paths.
+
+### Random ideas:
+- SW integrates with PlannerWeb by sharing events. Some event should be passed to planner as html custom event,
+- SW should provide an advanced editing experience (add attributes with no schema, set taints or allow tokens, so on..),
+- SW must provide some key combination to switch from draw to edit mode.
 
 ### TODO:
-- edit form is too basic: events does not work, add a '+' button to add attributes,
-- refactor code! The way components are arranged is bad, tools are suppose to created where needed but they need map that is created in the index.js. That mess because I did not implement any dependency injection mechanism in my fe components.
-- bare UX is defined, fix cypress tests,
+- refactor code! index.js is a mess, but it should not that hard to clean it up.
 - to use a toggle draw button (current implementation) or force user to hit button or Ctrl-D every time he wants to draw?
 - provide keyboard shortcut to toggle draw feature,
 - think about CI/CD.
 
 ### DONE:
-- move complexity from Tools component,
+- move complexity from Tools component.
+
+## 20220918
+I'll try to use this as a log.
+
+I should convert my eventshandler into a monad. It should be easy and fulfilling.
+
+Let's concentrate about authentication.
+
+## 20220924
+Let's use a dummy .js script to authenticate users for now. [Here](https://www.nginx.com/blog/validating-oauth-2-0-access-tokens-nginx/) is the article from which I am fetching 'inspiration' :) Finding a good identity provider and get how it works is a real work, not doing that right now. Which one should I take by the way? Keycloack, Gluu, OpenIAM...
