@@ -1,7 +1,7 @@
 # Keymaster
 Provides:
-- login functionality. Give him the right username and password and you get back a jwt token,
-- jwt token validation,
-- jwt token black listing.
+- jwt validation utility,
+- jwt token creation,
+- jwt token blacklisting (?).
 
-So I need a rest api, a login page and a database...
+Built in rust with [axum](https://github.com/tokio-rs/axum) ver 0.5.16.
