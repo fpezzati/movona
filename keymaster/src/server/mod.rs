@@ -12,6 +12,8 @@ pub mod server {
     use std::net::{
         SocketAddr,
     };
+    use jwt_simple::prelude::*;
+    use uuid::Uuid;
 
     pub struct Server {
         pub host: String,
@@ -37,7 +39,7 @@ pub mod server {
 
     async fn hello() -> impl IntoResponse {
       (StatusCode::OK, Json(json!({
-        "msg": "Hello"
+        "msg": "Hello!"
       })))
     }
 
@@ -47,7 +49,24 @@ pub mod server {
       })))
     }
 
-    async fn auth() -> impl IntoResponse {
+    struct LoginInput {
+      username: String,
+      password: String
+    }
+
+    struct UserClaims {
+      user: String,
+      uuid: Uuid
+    }
+
+    async fn auth(Json(input): Json<LoginInput>) -> impl IntoResponse {
+//      let key = HS256Key::generate();
+//      let custom_claims = UserClaims {
+//        user: input.username,
+//        uuid: Uuid::new_v4();
+//      }
+//      let claims = Claims::with_custom_claims(custom_claims, Duration::from_hours(100));
+//      let token = key.authenticate(claims)?;
       (StatusCode::OK, Json(json!({
         "msg": "Auth"
       })))
