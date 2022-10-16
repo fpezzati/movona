@@ -1,8 +1,6 @@
 pub mod server {
 
     use axum::{
-        extract::{FromRequestParts, TypedHeader},
-        async_trait,
         routing::get,
         routing::post,
         Router,
@@ -13,7 +11,6 @@ pub mod server {
     use serde_json::json;
     use serde::{ Deserialize, Serialize };
     use std::net::SocketAddr;
-    use jwt_simple::prelude::*;
     use uuid::Uuid;
 
     pub struct Server {
@@ -58,16 +55,19 @@ pub mod server {
     }
 
     async fn auth2(Json(payload): Json<LoginInput>) -> impl IntoResponse {
-      (StatusCode::OK, Json(json!({
-        "msg": "Auth2"
-      })))
+      let lo = LoginOutput{
+        token: payload.username
+      };
+      (StatusCode::OK, Json(lo))
     }
 
+    #[derive(Deserialize)]
     struct LoginInput {
       username: String,
       password: String
     }
 
+    #[derive(Serialize)]
     struct LoginOutput {
 //      type: "Bearer".to_string();
       token: String
