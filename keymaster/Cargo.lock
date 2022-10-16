@@ -580,6 +580,7 @@ dependencies = [
  "axum-macros",
  "hyper",
  "jwt-simple",
+ "serde",
  "serde_json",
  "tokio",
  "tower",

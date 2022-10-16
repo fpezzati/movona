@@ -1,6 +1,8 @@
 pub mod server {
 
     use axum::{
+        extract::{FromRequestParts, TypedHeader},
+        async_trait,
         routing::get,
         routing::post,
         Router,
@@ -8,10 +10,9 @@ pub mod server {
         http::StatusCode,
         response::IntoResponse
     };
-    use serde_json::{json};
-    use std::net::{
-        SocketAddr,
-    };
+    use serde_json::json;
+    use serde::{ Deserialize, Serialize };
+    use std::net::SocketAddr;
     use jwt_simple::prelude::*;
     use uuid::Uuid;
 
@@ -25,7 +26,8 @@ pub mod server {
             let routes = Router::new()
               .route("/", get(hello))
               .route("/check", post(check))
-              .route("/auth", post(auth));
+              .route("/auth", post(auth))
+              .route("/auth2", post(auth2));
             let mut hostport = String::from(&self.host);
             hostport.push_str(":");
             hostport.push_str(&self.port);
@@ -49,9 +51,31 @@ pub mod server {
       })))
     }
 
+    async fn auth() -> impl IntoResponse {
+      (StatusCode::OK, Json(json!({
+        "msg": "Auth"
+      })))
+    }
+
+    async fn auth2(Json(payload): Json<LoginInput>) -> impl IntoResponse {
+      (StatusCode::OK, Json(json!({
+        "msg": "Auth2"
+      })))
+    }
+
     struct LoginInput {
       username: String,
       password: String
+    }
+
+    struct LoginOutput {
+//      type: "Bearer".to_string();
+      token: String
+    }
+
+    struct Error {
+      code: i32,
+      message: String
     }
 
     struct UserClaims {
@@ -59,16 +83,18 @@ pub mod server {
       uuid: Uuid
     }
 
+/*
     async fn auth(Json(input): Json<LoginInput>) -> impl IntoResponse {
-//      let key = HS256Key::generate();
-//      let custom_claims = UserClaims {
-//        user: input.username,
-//        uuid: Uuid::new_v4();
-//      }
-//      let claims = Claims::with_custom_claims(custom_claims, Duration::from_hours(100));
-//      let token = key.authenticate(claims)?;
+      let key = HS256Key::generate();
+      let custom_claims = UserClaims {
+        user: input.username,
+        uuid: Uuid::new_v4();
+      }
+      let claims = Claims::with_custom_claims(custom_claims, Duration::from_hours(100));
+      let token = key.authenticate(claims)?;
       (StatusCode::OK, Json(json!({
         "msg": "Auth"
       })))
     }
+*/
 }
