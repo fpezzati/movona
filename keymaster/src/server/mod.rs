@@ -63,7 +63,7 @@ pub mod server {
     }
 
     async fn auth2(server_config: Extension<&str>, Json(payload): Json<LoginInput>) -> impl IntoResponse {
-//      let claims = Claims::create(Duration::from_hours(1));
+      let claims = Claims::create(Duration::from_hours(1));
 //      RS384PublicKey::from_pem("something").sign(claims)?;
 //      println!("wtf {}", server_config);
       let lo = LoginOutput{
