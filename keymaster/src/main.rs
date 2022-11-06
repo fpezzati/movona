@@ -8,16 +8,16 @@ use clap::Parser;
 #[derive(Parser, Debug)]
 #[command(version, about)]
 struct Args {
-   #[arg(short, long, default_value = "0.0.0.0")]
+   #[arg(long, default_value = "0.0.0.0")]
    host: String,
 
-   #[arg(short, long, default_value = "3000")]
+   #[arg(long, default_value = "3000")]
    port: String,
 
-   #[arg(short, long, default_value = "./private_key.pem")]
+   #[arg(long, default_value = "./private_key.pem")]
    private_key: String,
 
-   #[arg(short, long, default_value = "./public_key.pem")]
+   #[arg(long, default_value = "./public_key.pem")]
    public_key: String
 }
 

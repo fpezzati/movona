@@ -16,7 +16,6 @@ pub mod server {
     use jwt_simple::prelude::*;
     use std::fs::File;
     use std::io::Read;
-    use std::sync::Arc;
 
     pub struct Server {
         pub host: String,
@@ -27,12 +26,11 @@ pub mod server {
 
     impl Server {
         pub async fn start(&self) {
-          let public_key = String::from(&self.public_key.clone());
+          let private_key = String::from(&self.private_key);
           let routes = Router::new()
             .route("/", get(hello))
             .route("/check", post(check))
-            .route("/auth", post(auth))
-            .route("/auth2", post(auth2)).layer(Extension(public_key));
+            .route("/auth", post(auth)).layer(Extension(private_key));
           let mut hostport = String::from(&self.host);
           hostport.push_str(":");
           hostport.push_str(&self.port);
@@ -56,19 +54,12 @@ pub mod server {
       })))
     }
 
-    async fn auth() -> impl IntoResponse {
-      (StatusCode::OK, Json(json!({
-        "msg": "Auth"
-      })))
-    }
-
-    async fn auth2(Extension(public_key): Extension<&str>, Json(payload): Json<LoginInput>) -> impl IntoResponse {
+    async fn auth(Extension(private_key): Extension<String>, Json(payload): Json<LoginInput>) -> impl IntoResponse {
       let claims = Claims::create(Duration::from_hours(1));
-//      RS384PublicKey::from_pem(public_key).sign(claims).unwrap();
-//      println!("wtf {}", server_config);
+      let token_signer = RS384KeyPair::from_pem(&private_key.to_string()).unwrap();
+      let signed_token = token_signer.sign(claims).unwrap();
       let lo = LoginOutput{
-        token: payload.username,
-        something: public_key.to_string()
+        token: signed_token
       };
       (StatusCode::OK, Json(lo))
     }
@@ -81,9 +72,7 @@ pub mod server {
 
     #[derive(Serialize)]
     struct LoginOutput {
-//      type: "Bearer".to_string();
-      token: String,
-      something: String
+      token: String
     }
 
     struct Error {
@@ -95,19 +84,4 @@ pub mod server {
       user: String,
       uuid: Uuid
     }
-
-/*
-    async fn auth(Json(input): Json<LoginInput>) -> impl IntoResponse {
-      let key = HS256Key::generate();
-      let custom_claims = UserClaims {
-        user: input.username,
-        uuid: Uuid::new_v4();
-      }
-      let claims = Claims::with_custom_claims(custom_claims, Duration::from_hours(100));
-      let token = key.authenticate(claims)?;
-      (StatusCode::OK, Json(json!({
-        "msg": "Auth"
-      })))
-    }
-*/
 }
