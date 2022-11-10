@@ -2,7 +2,6 @@ mod server;
 
 use std::fs::File;
 use std::io::Read;
-use std::env;
 use clap::Parser;
 
 #[derive(Parser, Debug)]

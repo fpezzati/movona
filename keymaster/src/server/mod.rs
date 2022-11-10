@@ -6,16 +6,14 @@ pub mod server {
       routing::post,
       Router,
       Json,
-      http::StatusCode,
+      http::{StatusCode, header::HeaderMap, header::AUTHORIZATION},
       response::IntoResponse
     };
     use serde_json::json;
     use serde::{ Deserialize, Serialize };
     use std::net::SocketAddr;
-    use uuid::Uuid;
+//    use uuid::Uuid;
     use jwt_simple::prelude::*;
-    use std::fs::File;
-    use std::io::Read;
 
     pub struct Server {
         pub host: String,
@@ -64,6 +62,15 @@ pub mod server {
       (StatusCode::OK, Json(lo))
     }
 
+    async fn decode(Extension(public_key): Extension<String>, headers: HeaderMap) -> impl IntoResponse {
+      let token_to_check = headers.get(AUTHORIZATION).unwrap();
+      let token_checker = RS384PublicKey::from_pem(&public_key.to_string()).unwrap();
+      match token_checker.verify_token::<UserClaims>(token_to_check.to_str().unwrap(), None) {
+        Ok(claims) => StatusCode::OK,
+        Err(error) => StatusCode::UNAUTHORIZED
+      }
+    }
+
     #[derive(Deserialize)]
     struct LoginInput {
       username: String,
@@ -75,13 +82,14 @@ pub mod server {
       token: String
     }
 
+    #[derive(Serialize, Deserialize)]
+    struct UserClaims {
+      user: String,
+      uuid: String
+    }
+
     struct Error {
       code: i32,
       message: String
-    }
-
-    struct UserClaims {
-      user: String,
-      uuid: Uuid
     }
 }
