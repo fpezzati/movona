@@ -53,7 +53,11 @@ pub mod server {
     }
 
     async fn auth(Extension(private_key): Extension<String>, Json(payload): Json<LoginInput>) -> impl IntoResponse {
-      let claims = Claims::create(Duration::from_hours(1));
+      let custom_claims = CustomClaims {
+        user: payload.username,
+        uuid: "100"
+      }
+      let claims = Claims::with_custom_claims(custom_claims, Duration::from_hours(1));
       let token_signer = RS384KeyPair::from_pem(&private_key.to_string()).unwrap();
       let signed_token = token_signer.sign(claims).unwrap();
       let lo = LoginOutput{
