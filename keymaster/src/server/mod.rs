@@ -69,9 +69,13 @@ pub mod server {
     }
 
     async fn verify(Extension(public_key): Extension<String>, headers: HeaderMap) -> impl IntoResponse {
-      let token_to_check = headers.get(AUTHORIZATION).unwrap();
+      let authorization_header_value = headers.get(AUTHORIZATION).unwrap().to_str().unwrap();
+      println!("AUTHORIZATION: {}", authorization_header_value);
+      println!("JWT: {}", str::replace(authorization_header_value, "Bearer ", ""));
+
+      let token_to_check = str::replace(authorization_header_value, "Bearer ", "");
       let token_checker = RS384PublicKey::from_pem(&public_key.to_string()).unwrap();
-      match token_checker.verify_token::<UserClaims>(token_to_check.to_str().unwrap(), None) {
+      match token_checker.verify_token::<UserClaims>(&token_to_check, None) {
         Ok(claims) => StatusCode::OK,
         Err(error) => StatusCode::UNAUTHORIZED
       }
