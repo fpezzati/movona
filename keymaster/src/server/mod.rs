@@ -25,10 +25,12 @@ pub mod server {
     impl Server {
         pub async fn start(&self) {
           let private_key = String::from(&self.private_key);
+          let public_key = String::from(&self.public_key);
           let routes = Router::new()
             .route("/", get(hello))
             .route("/check", post(check))
-            .route("/auth", post(auth)).layer(Extension(private_key));
+            .route("/auth", post(auth)).layer(Extension(private_key))
+            .route("/verify", post(verify)).layer(Extension(public_key));
           let mut hostport = String::from(&self.host);
           hostport.push_str(":");
           hostport.push_str(&self.port);
@@ -53,10 +55,10 @@ pub mod server {
     }
 
     async fn auth(Extension(private_key): Extension<String>, Json(payload): Json<LoginInput>) -> impl IntoResponse {
-      let custom_claims = CustomClaims {
+      let custom_claims = UserClaims {
         user: payload.username,
-        uuid: "100"
-      }
+        uuid: "100".to_string()
+      };
       let claims = Claims::with_custom_claims(custom_claims, Duration::from_hours(1));
       let token_signer = RS384KeyPair::from_pem(&private_key.to_string()).unwrap();
       let signed_token = token_signer.sign(claims).unwrap();
@@ -66,7 +68,7 @@ pub mod server {
       (StatusCode::OK, Json(lo))
     }
 
-    async fn decode(Extension(public_key): Extension<String>, headers: HeaderMap) -> impl IntoResponse {
+    async fn verify(Extension(public_key): Extension<String>, headers: HeaderMap) -> impl IntoResponse {
       let token_to_check = headers.get(AUTHORIZATION).unwrap();
       let token_checker = RS384PublicKey::from_pem(&public_key.to_string()).unwrap();
       match token_checker.verify_token::<UserClaims>(token_to_check.to_str().unwrap(), None) {
