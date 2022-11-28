@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keymaster-deployment
+  namespace: movona
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: keymaster-app
+  template:
+    metadata:
+      labels:
+        name: keymaster-app
+        app: keymaster
+    spec:
+      containers:
+        - name: keymaster-app
+          image: movona/keymaster-rustslim     dev20221127001
+          command: cargo watch -x run
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: /usr/src/myapp
+              name: keymaster-bin-fs
+      volumes:
+        - name: keymaster-bin-fs
+          hostPath:
+            path: /movona/keymaster/target/debug/keymaster
+            type: File

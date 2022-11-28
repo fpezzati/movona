@@ -27,7 +27,7 @@ It's a library, she provides a pluggable eventbus and a plug implementing 'ctrl-
 Aggregates a set of features that allow user to draw and define specific geospatial objects.
 
 ## ScouterWeb
-This is Scoute's web interface: a web component that is in charge to render what user figured out using Scouter. ScouterWeb encapsulates Scouter and feeds him with all the events that occurs (user interaction).
+This is Scouter's web interface: a web component that is in charge to render what user figured out using Scouter. ScouterWeb encapsulates Scouter and feeds him with all the events that occurs (user interaction).
 
 One of the key components in ScouterWeb is the function that allows gui components to send an event that will update application's state and refresh gui itself.
 
@@ -56,3 +56,20 @@ Let's concentrate about authentication.
 
 ## 20220924
 Let's use a dummy .js script to authenticate users for now. [Here](https://www.nginx.com/blog/validating-oauth-2-0-access-tokens-nginx/) is the article from which I am fetching 'inspiration' :) Finding a good identity provider and get how it works is a real work, not doing that right now. Which one should I take by the way? Keycloack, Gluu, OpenIAM...
+
+## 20221115
+I did some experiments with Rust, which I use to implement Keymaster. Quite happy about him, even if he takes a month to get minimal grip on Rust..
+
+Now I have to link Keymaster with Gatekeeper, the reverse proxy with auth-request module.
+
+## 20221126
+Back here since a lot. Putting keymaster on the run in a dev way, I stumbled on cargo-watch. Cargo-watch has no official docker image. I have to built an image and pass it to minikube. How do I put minikube aware about a new docker image? Can't remember anymore..
+
+Now I got that back to mind! I simply have to run this:
+```
+eval $(minikube -p minikube docker-env)
+```
+and build the image again, now minikube should be aware of the image.
+
+## 20221128
+Cargo watch rust image tooks 1GB, unexpected too much.. Alternatives: use a simple rust image and destroy the pod on every save (looks like restarting the old application server), develop with rust in an old fashioned way and use something to make services into minikube reach the rust IdP (very trivial) I am developing.
