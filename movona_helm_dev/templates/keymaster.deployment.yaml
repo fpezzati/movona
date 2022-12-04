@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: keymaster-app
-          image: movona/keymaster-rustslim     dev20221127001
-          command: cargo watch -x run
+          image: rust:slim
+          command: ["cargo", "run"]
           ports:
             - containerPort: 3000
           volumeMounts:

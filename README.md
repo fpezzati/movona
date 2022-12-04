@@ -72,4 +72,48 @@ eval $(minikube -p minikube docker-env)
 and build the image again, now minikube should be aware of the image.
 
 ## 20221128
-Cargo watch rust image tooks 1GB, unexpected too much.. Alternatives: use a simple rust image and destroy the pod on every save (looks like restarting the old application server), develop with rust in an old fashioned way and use something to make services into minikube reach the rust IdP (very trivial) I am developing.
+Cargo watch rust image tooks 1GB, unexpected too much.. Alternatives: use a simple rust image and destroy the pod on every save (looks like restarting the old application server), develop with rust in an old fashioned way and use something to make services into minikube reach the rust IdP (very trivial) I am developing. Can I map a k8s `Service` to keymaster on localhost?
+
+## 20221129
+Looks like connecting stuff (localhost) to cluster is not that easy with minikube... Maybe I'll switch on k3s one day..
+
+## 20221201
+Let's try things as they are.. How do I upgrade my cluster with helm? Can't remember! Maybe `helm upgrade movona.helm ./`?
+
+Ok, a quick recapt:
+```
+$ helm list
+NAME            NAMESPACE       REVISION        UPDATED                                         STATUS          CHART                   APP VERSION
+movona.helm     default         13              2022-09-05 23:22:47.677232152 +0200 CEST        deployed        movona_helm_dev-0.1.1   0.1.1
+```
+you get managed charts.
+
+```
+$ helm status movona.helm
+NAME: movona.helm
+LAST DEPLOYED: Mon Sep  5 23:22:47 2022
+NAMESPACE: default
+STATUS: deployed
+REVISION: 13
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=movona_helm_dev,app.kubernetes.io/instance=movona.helm" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+```
+you get chart status.
+
+```
+helm upgrade movona.helm ./
+```
+And you upgrade your chart by using the helm stuff in local directory while `helm rollback yourchart` should bring back cluster to a previous deploy.
+
+Ok upgraded, something will broke for sure :P And, yes, gatekeeper and keymaster are crashing while plannerweb misses his image, I propbably have to share that again with minikube.
+
+## 20221204
+Did some progresses here. By running
+```
+docker run --rm -v $PWD/conf/default.conf:/etc/nginx/conf.d/default.conf -v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf -v $PWD/conf/jwt_auth.js:/etc/nginx/jwt_auth.js movona/gatekeeper:1.0.0.20221203
+```
+I was able to run nginx with njs module loaded. There is an issue in my .js file. I also need a custom image to get containerized nginx with njs running.

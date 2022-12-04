@@ -10,6 +10,6 @@ RUN printf "%s%s%s%s\n" \
     | tee -a /etc/apk/repositories
 RUN apk add nginx-module-image-filter@nginx nginx-module-njs@nginx
 
-#COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
-#COPY ./conf/jwt_auth.js /tmp/jwt_auth.js
+COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
+COPY ./conf/jwt_auth.js /tmp/jwt_auth.js
 EXPOSE 80 443
