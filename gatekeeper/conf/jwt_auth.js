@@ -8,4 +8,5 @@ function checktoken(req) {
       req.return(401);
     }
   });
-}
+};
+export default { checktoken };

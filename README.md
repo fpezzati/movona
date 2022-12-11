@@ -111,9 +111,31 @@ And you upgrade your chart by using the helm stuff in local directory while `hel
 
 Ok upgraded, something will broke for sure :P And, yes, gatekeeper and keymaster are crashing while plannerweb misses his image, I propbably have to share that again with minikube.
 
-## 20221204
+## 20221203
 Did some progresses here. By running
 ```
 docker run --rm -v $PWD/conf/default.conf:/etc/nginx/conf.d/default.conf -v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf -v $PWD/conf/jwt_auth.js:/etc/nginx/jwt_auth.js movona/gatekeeper:1.0.0.20221203
 ```
 I was able to run nginx with njs module loaded. There is an issue in my .js file. I also need a custom image to get containerized nginx with njs running.
+
+## 20221204
+Ready to try the new gatekeeper custom image on movona. Let's see if it works.
+
+## 20221206
+Minikube certs expired...
+
+I had to delete and start minikube cluster again, then deploy with helm:
+```
+minikube delete && minikube start
+...<doing eval and rebuilding images to share>...
+helm install movona.helm ./
+```
+Minikube takes soo long to deploy pods..
+
+## 20221208
+Minikube takes a lot because she can't mount volumes. Messing with helm configuration, but it is useless, not an Helm problem. I have to share some fs with minikube's vm. I am more thinking k3s is better.
+
+Yesterday minikube's certs expired and I had to reset it and, doing that I drop volume mount between minikube's vm and localhost.
+
+## 20221211
+A lot goes here. I fix a bunch of issues about gatekeeper and keymaster deployments, now they both run. I just have to check they run the way I want.. So much `helm install`, `helm uninstall` and `helm upgrade`.

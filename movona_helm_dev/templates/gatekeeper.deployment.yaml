@@ -20,14 +20,21 @@ spec:
           ports:
             - containerPort: 80
           volumeMounts:
-            - mountPath: /etc/nginx/conf.d/default.conf
+            - mountPath: /etc/nginx/nginx.conf
               name: gatekeeper-conf-fs
+            - mountPath: /etc/nginx/jwt_auth.js
+              name: gatekeeper-js-module
       volumes:
         - name: gatekeeper-conf-fs
           hostPath:
-            path: /movona/gatekeeper/conf/default.conf
+            path: /movona/gatekeeper/conf/nginx.conf
+            type: File
+        - name: gatekeeper-js-module
+          hostPath:
+            path: /movona/gatekeeper/conf/jwt_auth.js
             type: File
         - name: gatekeeper-doc-fs
           hostPath:
             path: /movona/gatekeeper/app
             type: Directory
+#  docker run --rm -v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf -v $PWD/conf/jwt_auth.js:/etc/nginx/jwt_auth.js movona/gatekeeper:1.0.0.20221203
