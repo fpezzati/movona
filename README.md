@@ -139,3 +139,116 @@ Yesterday minikube's certs expired and I had to reset it and, doing that I drop 
 
 ## 20221211
 A lot goes here. I fix a bunch of issues about gatekeeper and keymaster deployments, now they both run. I just have to check they run the way I want.. So much `helm install`, `helm uninstall` and `helm upgrade`.
+
+## 20221213
+Rearranged everything up and running but there are issues. gatekeeper is misconfigured and there are issues in my .njs file..
+
+## 20221218
+Trying to integrate my nginx with my github oauth configuration... Learning about github auth apps. App registered.
+
+Curl call to get my token verified:
+```
+curl \
+  -X POST \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer <YOUR-TOKEN>"\
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/applications/Iv1.<SOME-WEIRD-CODE>/token \
+  -d '{"access_token":"<ACCESS-TOKEN>"}
+```
+
+Of course ids and tokens are fake.
+
+## 20221221
+I have to get how to build my nginx. I am doing a POC.
+
+## 20221226
+Had hard times with POC because of wrong nginx.conf mounting..
+
+Got the POC to redirecto to nginx login page. Now focusing on the callback auth request. I have to find a way to return the callback to the host, which it means to aim a k8s service..
+
+## 20221227
+Problem is minikube (at least v.1.14) does not provide an hostname. I should add someone to my /etc/hosts.
+
+Added a new entry in my /etc/hosts, movona.net. Now I'll proceed with callback.
+
+## 20221230
+Doing a turnback. Removing rust auth provider's service and deployment, I guess it is better to go with oauth2.
+
+## 20230107
+Frustrations on setting up a token request in the nginx's callback location... Getting 502 while using nginx and 404 while using curl...
+
+## 20230108
+Fuck.. github redirect url is mandatory to get auth token while doing POST `login/oauth/access_token`.
+
+## 20230121
+A lot of days trying to get a jwt token and put it into a cookie... Nginx is so poorly documented and njs module makes no exception to that. I think I am not that far but I am struggling now with njs and getting why my code gives an error while in jsfiddle it works well...
+
+## 20230122
+Nginx is a pool of mud to me.. Cannot get how to do basic oauth2 web flow.. Maybe I should riesumate the `keymaster` service, use it to get the token, return my own one instead and check that.. Maybe I should.
+
+Well I'll do that, I'll raise `keymaster` again.
+
+## 20230123
+Refactoring `keymaster`: service will provide:
+- callback endpoint: get home baked jwt token (not the one from identity provider) after succesful login,
+- check endpoint: verify token that comes from client.
+
+## 20230217
+A long time since I was here..
+
+Oh it compiles! Incredible! I have to stop using rust with atom.. Now I want to expose the keymaster as external service..
+
+## 20230304
+Trying to add a better configuration feature to keymaster. Rust is pain.
+
+## 20230307
+It runs again. Now I have to test login and callback calls.
+
+## 20230311
+How to move configurations to handlers? Instant ideas:
+- handlers are creadet when server is, configuration is loaded in the same place and passed to handlers too,
+- server receives configuration and shares it to handlers.
+
+I like the second a bit much.
+
+## 20230324
+A bunch of days about fighting agains rust's borrow checker.
+
+## 20230325
+It does something... Not sure if it works.
+
+## 20230326
+Produces an empty response with no cookie...
+
+No response at all! Looks like my code is ignored...
+
+## 20230328
+A couple of evenings just to get how to println an hyper response body to stdout...
+
+Ok, I am getting correctly github reply. Now I have to get how to put the value as secure cookie in my response..
+
+## 20230331
+Rust is bloodly frustrating when you have to convert data...
+
+## 20230402
+Finally got the basic. Now I want to:
+- add some path parameters to scale about which IdP to check against (OAuth2 is always the same, I only have to add configuration about other providers),
+- think about providing an in-house token instead of service one.
+
+## 20230405
+Cannot build a function returning a `Response` given a status code and a string message...
+
+## 20230406
+Rust is bloody stupid. Wanna refactor some code and return something of type 'supertype'? No, because even you say supertype, once you return a concrete type, that type must be satisfied in any place... No way to returning different responses in handler. Fuck.
+
+## 20230409
+After bleeding two more nights I decided to ask for help on S.O. and now my little monster compiles again. Let's improve him tomorrow.
+
+## 20230410
+Ready to refactor keymaster. I want to:
+- rearrange duplicated code into private function,
+- add query parameter that matches with configuration object and indicates which IdP keymaster should use.
+Don't know if the second one is doable. For example, when implementing github oauth2 web, I stumbled across a redirect which was unexpected, maybe other Idp don't redirect.. I have to handle that.
+
+https://github.com/login/oauth/authorize?client_id=83787c1e2659352d9da6

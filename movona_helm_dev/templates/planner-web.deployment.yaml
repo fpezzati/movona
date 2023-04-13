@@ -17,7 +17,7 @@ spec:
       containers:
         - name: planner-web-app
           image: movona/planner-web-n14a12:dev20220905001
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           workingDir: /movona/planner-web
           command: ["ng", "serve", "--host", "0.0.0.0", "--disable-host-check"]
           ports:

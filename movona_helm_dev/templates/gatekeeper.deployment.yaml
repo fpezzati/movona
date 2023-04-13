@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: gatekeeper-app
-          image: nginx:alpine
+          image: movona/gatekeeper:1.0.0.20221203
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
           volumeMounts:
@@ -37,4 +38,3 @@ spec:
           hostPath:
             path: /movona/gatekeeper/app
             type: Directory
-#  docker run --rm -v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf -v $PWD/conf/jwt_auth.js:/etc/nginx/jwt_auth.js movona/gatekeeper:1.0.0.20221203

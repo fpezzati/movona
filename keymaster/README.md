@@ -25,3 +25,9 @@ Big win: user registration involves only one app. Big loss: putting a lot of stu
 
 ### Scenario 3
 Integrate this with some OAuth or OAuth2 provider.
+
+## 20230122
+Raise from the death! Keymaster returns to handle login. Cannot get how to achieve login with nginx (how to put oauth2 token into a httponly secure cookie?). Moreover: I want to share my jwt token! This way I can validate my token instead of asking someone else to do that. Maybe instead of having another pod, gatekeeper and keymaster may be two containers sharing the same pod... Who knows.
+
+## 20230123
+Scenario 3 tooks hold on keymaster. Service will provide an endpoint to get a token and an endpoint to verify that.

@@ -1,4 +1,4 @@
-pub mod server {
+mod handlers;
 
     use axum::{
       extract::Extension,
@@ -10,62 +10,92 @@ pub mod server {
       response::IntoResponse
     };
     use serde_json::json;
+    use serde_json::Value;
     use serde::{ Deserialize, Serialize };
     use std::net::SocketAddr;
-//    use uuid::Uuid;
     use jwt_simple::prelude::*;
+    use hyper;
+    use hyper::Response;
+    use std::fs::File;
+    use std::io::Read;
+
+    use handlers::github_oauth2::GitHubOAuth2;
+    use handlers::github_oauth2::callback;
 
     pub struct Server {
-        pub host: String,
-        pub port: String,
-        pub public_key: String,
-        pub private_key: String
+        host: String,
+        port: String,
+        public_key: String,
+        private_key: String,
+        pub conf: String
+    }
+
+    use std::any::type_name;
+
+    fn type_of<T>(_: T) -> &'static str {
+      type_name::<T>()
+    }
+
+    fn load_key(filename: &str) -> std::result::Result<String, Box<dyn std::error::Error>> {
+      let mut key = String::new();
+      File::open(filename)?.read_to_string(&mut key)?;
+      Ok(key)
     }
 
     impl Server {
+        pub fn new(config_doc: &String) -> Server {
+          let json_content : Value = serde_json::from_str(&config_doc).expect("Invalid file.");
+          Server {
+            host: json_content["host"].as_str().unwrap().to_string(),
+            port: json_content["port"].to_string(),
+            public_key: json_content["private_key"].to_string(),
+            private_key: json_content["public_key"].to_string(),
+            conf: config_doc.to_string()
+          }
+        }
+
         pub async fn start(&self) {
-          let private_key = String::from(&self.private_key);
+
           let public_key = String::from(&self.public_key);
           let routes = Router::new()
-            .route("/", get(hello))
+            .route("/", get(hello)).layer(Extension(String::from(&self.conf)))
             .route("/check", post(check))
-            .route("/auth", post(auth)).layer(Extension(private_key))
-            .route("/verify", post(verify)).layer(Extension(public_key));
+            .route("/login", get(login))
+            .route("/verify", post(verify)).layer(Extension(public_key))
+            .route("/callback", get(callback)).layer(Extension(GitHubOAuth2::new(String::from(&self.conf))));
           let mut hostport = String::from(&self.host);
+
           hostport.push_str(":");
           hostport.push_str(&self.port);
-          println!("{}", hostport);
-          let addr : SocketAddr = hostport.parse().expect("invalid host:port pair");
+          println!("hostport {}", hostport);
+          let addr : SocketAddr = hostport.parse::<SocketAddr>().expect("invalid host:port pair");
           axum::Server::bind(
               &addr
           ).serve(routes.into_make_service()).await.unwrap();
         }
     }
 
-    async fn hello() -> impl IntoResponse {
-      (StatusCode::OK, Json(json!({
-        "msg": "Hello!"
-      })))
+    #[derive(Serialize, Deserialize)]
+    struct CallbackAuthCode {
+      arg_code: String
+    }
+
+    async fn login() -> impl IntoResponse {
+      println!("Login called");
+      Response::builder().
+        header("Location", "https://github.com/login/oauth/authorize").
+        status(StatusCode::MOVED_PERMANENTLY).body(hyper::Body::empty()).
+        unwrap()
+    }
+
+    async fn hello(Extension(conf): Extension<String>) -> impl IntoResponse {
+      (StatusCode::OK, Json(conf))
     }
 
     async fn check() -> impl IntoResponse {
       (StatusCode::OK, Json(json!({
         "msg": "Check"
       })))
-    }
-
-    async fn auth(Extension(private_key): Extension<String>, Json(payload): Json<LoginInput>) -> impl IntoResponse {
-      let custom_claims = UserClaims {
-        user: payload.username,
-        uuid: "100".to_string()
-      };
-      let claims = Claims::with_custom_claims(custom_claims, Duration::from_hours(1));
-      let token_signer = RS384KeyPair::from_pem(&private_key.to_string()).unwrap();
-      let signed_token = token_signer.sign(claims).unwrap();
-      let lo = LoginOutput{
-        token: signed_token
-      };
-      (StatusCode::OK, Json(lo))
     }
 
     async fn verify(Extension(public_key): Extension<String>, headers: HeaderMap) -> impl IntoResponse {
@@ -81,12 +111,6 @@ pub mod server {
       }
     }
 
-    #[derive(Deserialize)]
-    struct LoginInput {
-      username: String,
-      password: String
-    }
-
     #[derive(Serialize)]
     struct LoginOutput {
       token: String
@@ -97,9 +121,3 @@ pub mod server {
       user: String,
       uuid: String
     }
-
-    struct Error {
-      code: i32,
-      message: String
-    }
-}
