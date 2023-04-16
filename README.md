@@ -251,4 +251,7 @@ Ready to refactor keymaster. I want to:
 - add query parameter that matches with configuration object and indicates which IdP keymaster should use.
 Don't know if the second one is doable. For example, when implementing github oauth2 web, I stumbled across a redirect which was unexpected, maybe other Idp don't redirect.. I have to handle that.
 
-https://github.com/login/oauth/authorize?client_id=83787c1e2659352d9da6
+## 20230416
+A few days of disaffection. Maybe I had an idea about getting keymaster Idp agnostic: callback handler should have a path parameter identifying the provider suggesting the callback. The param will be used to get the right handler.
+
+Maybe easiest: keymaster provides his own jwt token and he'll be able to validate that too.
